@@ -9,7 +9,8 @@
     "dev": "remix vite:dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "nuke": "npm run clean && rimraf node_modules package-lock.json && npm i",
+    "nuke": "echo '☢️ Running nuke command...\n' && npm run clean && rimraf node_modules package-lock.json && npm i",
+    "postclone": "npm run nuke",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@remix-run/dev": "^2.4.1",
     "@remix-run/eslint-config": "^2.4.1",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.17.0",

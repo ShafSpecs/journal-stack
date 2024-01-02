@@ -1,4 +1,3 @@
-import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -8,11 +7,8 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 
-import tailwindcss from './styles/tailwind.css'
-
-export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: tailwindcss }]
-}
+import './styles/tailwind.css'
+import './styles/fonts.css'
 
 export default function App() {
   return (
@@ -23,7 +19,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-background-color">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
