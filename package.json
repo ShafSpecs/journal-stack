@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
+    "clean": "rimraf build",
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "nuke": "npm run clean && rimraf node_modules package-lock.json && npm i",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
@@ -35,6 +37,7 @@
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.10",
     "remix-development-tools": "^3.7.0",
+    "rimraf": "^5.0.5",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.1.6",
     "vite": "^5.0.0",
