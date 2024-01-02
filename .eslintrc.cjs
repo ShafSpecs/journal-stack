@@ -1,9 +1,3 @@
-/**
- * This is intended to be a basic starting point for linting in your app.
- * It relies on recommended configs out of the box for simplicity, but you can
- * and should modify this configuration to best suit your team's needs.
- */
-
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
@@ -19,12 +13,32 @@ module.exports = {
     commonjs: true,
     es6: true,
   },
-
-  // Base config
-  extends: ["eslint:recommended"],
-
+  rules: {
+    '@typescript-eslint/consistent-type-imports': 'error',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
+      },
+    ],
+    strict: 'error',
+    'sort-destructure-keys/sort-destructure-keys': 'error',
+    'import/no-unresolved': [2, { caseSensitive: false }],
+    '@typescript-eslint/no-explicit-any': 'off',
+  },
+  extends: [
+    "eslint:recommended",
+    '@remix-run/eslint-config',
+    '@remix-run/eslint-config/node',
+    'plugin:prettier/recommended',
+    'standard',
+    'plugin:import/typescript',
+    'plugin:import/errors'
+  ],
+  plugins: ['simple-import-sort', 'import', 'disable', 'sort-destructure-keys', 'node'],
   overrides: [
-    // React
     {
       files: ["**/*.{js,jsx,ts,tsx}"],
       plugins: ["react", "jsx-a11y"],
@@ -45,11 +59,9 @@ module.exports = {
         ],
       },
     },
-
-    // Typescript
     {
       files: ["**/*.{ts,tsx}"],
-      plugins: ["@typescript-eslint", "import"],
+      plugins: ["import"],
       parser: "@typescript-eslint/parser",
       settings: {
         "import/internal-regex": "^~/",
@@ -63,13 +75,10 @@ module.exports = {
         },
       },
       extends: [
-        "plugin:@typescript-eslint/recommended",
         "plugin:import/recommended",
         "plugin:import/typescript",
       ],
     },
-
-    // Node
     {
       files: [".eslintrc.js"],
       env: {
@@ -77,4 +86,5 @@ module.exports = {
       },
     },
   ],
+  ignorePatterns: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/build/**'],
 };
