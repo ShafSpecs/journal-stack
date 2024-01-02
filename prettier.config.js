@@ -2,7 +2,7 @@
 export default {
   semi: false,
   singleQuote: true,
-  trailingComma: 'all',
+  trailingComma: 'es5',
   arrowParens: 'avoid',
   endOfLine: 'auto',
   plugins: ['prettier-plugin-tailwindcss'],

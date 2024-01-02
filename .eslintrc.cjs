@@ -1,12 +1,14 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
+    impliedStrict: true,
   },
   env: {
     browser: true,
@@ -16,75 +18,101 @@ module.exports = {
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/ban-ts-comment': 'off',
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+      },
+    ],
     'import/order': [
       'error',
       {
         'newlines-between': 'always',
-        groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
+        groups: [
+          ['builtin', 'external'],
+          'internal',
+          ['parent', 'sibling', 'index'],
+        ],
       },
     ],
     strict: 'error',
+    'space-before-function-paren': [
+      'error',
+      {
+        anonymous: 'always',
+        named: 'never',
+        asyncArrow: 'never',
+      },
+    ],
     'sort-destructure-keys/sort-destructure-keys': 'error',
     'import/no-unresolved': [2, { caseSensitive: false }],
     '@typescript-eslint/no-explicit-any': 'off',
   },
+  processor: 'disable/disable',
   extends: [
-    "eslint:recommended",
+    'eslint:recommended',
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
     'plugin:prettier/recommended',
     'standard',
     'plugin:import/typescript',
-    'plugin:import/errors'
+    'plugin:import/errors',
   ],
-  plugins: ['simple-import-sort', 'import', 'disable', 'sort-destructure-keys', 'node'],
+  plugins: [
+    'simple-import-sort',
+    'import',
+    'disable',
+    'sort-destructure-keys',
+    'node',
+  ],
   overrides: [
     {
-      files: ["**/*.{js,jsx,ts,tsx}"],
-      plugins: ["react", "jsx-a11y"],
+      files: ['**/*.{js,jsx,ts,tsx}'],
+      plugins: ['react', 'jsx-a11y'],
       extends: [
-        "plugin:react/recommended",
-        "plugin:react/jsx-runtime",
-        "plugin:react-hooks/recommended",
-        "plugin:jsx-a11y/recommended",
+        'plugin:react/recommended',
+        'plugin:react/jsx-runtime',
+        'plugin:react-hooks/recommended',
+        'plugin:jsx-a11y/recommended',
       ],
       settings: {
         react: {
-          version: "detect",
+          version: 'detect',
         },
-        formComponents: ["Form"],
+        formComponents: ['Form'],
         linkComponents: [
-          { name: "Link", linkAttribute: "to" },
-          { name: "NavLink", linkAttribute: "to" },
+          { name: 'Link', linkAttribute: 'to' },
+          { name: 'NavLink', linkAttribute: 'to' },
         ],
       },
     },
     {
-      files: ["**/*.{ts,tsx}"],
-      plugins: ["import"],
-      parser: "@typescript-eslint/parser",
+      files: ['**/*.{ts,tsx}'],
+      plugins: ['import'],
+      parser: '@typescript-eslint/parser',
       settings: {
-        "import/internal-regex": "^~/",
-        "import/resolver": {
+        'import/internal-regex': '^~/',
+        'import/resolver': {
           node: {
-            extensions: [".ts", ".tsx"],
+            extensions: ['.ts', '.tsx'],
           },
           typescript: {
             alwaysTryTypes: true,
           },
         },
       },
-      extends: [
-        "plugin:import/recommended",
-        "plugin:import/typescript",
-      ],
+      extends: ['plugin:import/recommended', 'plugin:import/typescript'],
     },
     {
-      files: [".eslintrc.js"],
+      files: ['.eslintrc.js'],
       env: {
         node: true,
       },
     },
   ],
-  ignorePatterns: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/build/**'],
-};
+  ignorePatterns: ['**/node_modules/**', '**/build/**'],
+}
