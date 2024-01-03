@@ -3,6 +3,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./app/**/*.{tsx,ts,jsx,js}'],
+  darkMode: 'class',
   theme: {
     extend: {
       typography: theme => ({
