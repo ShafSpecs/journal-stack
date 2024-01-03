@@ -45,7 +45,7 @@ module.exports = {
       {
         anonymous: 'always',
         named: 'never',
-        asyncArrow: 'never',
+        asyncArrow: 'always',
       },
     ],
     'sort-destructure-keys/sort-destructure-keys': 'error',
