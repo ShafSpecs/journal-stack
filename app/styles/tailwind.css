@@ -6,7 +6,7 @@
   --background-color: #fff;
 }
 
-:root [data-theme='dark'] {
+:root.dark {
   --background-color: #0f172a;
 }
 
