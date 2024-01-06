@@ -1,9 +1,20 @@
 {
-  "latest": {
+  "main": {
     "alias": [
-      "1.0.0",
+      "2.1.0",
       "main"
     ],
+    "version": "main"
+  },
+  "dev": {
+    "alias": [
+      "nightly",
+      "2.2.0"
+    ],
+    "version": "dev"
+  },
+  "1.0.0": {
+    "alias": [],
     "version": "1.0.0"
   }
 }
