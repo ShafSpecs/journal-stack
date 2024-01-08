@@ -25,7 +25,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   })
 }
 
-export default function App() {
+function App() {
+  return <Outlet />
+}
+
+export default function Document() {
   const theme = useTheme()
 
   return (
@@ -38,7 +42,7 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-background-color">
-        <Outlet />
+        <App />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
