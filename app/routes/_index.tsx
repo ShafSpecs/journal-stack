@@ -1,8 +1,13 @@
 import type { MetaFunction } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
+import { redirect, useFetcher } from '@remix-run/react'
 
 import { useRequestInfo } from '~/hooks/useRequestInfo'
 import { useOptimisticThemeMode } from '~/hooks/useTheme'
+
+export const loader = () => {
+  console.log(process.cwd(), import.meta.url)
+  return redirect('/docs/main')
+}
 
 export const meta: MetaFunction = () => {
   return [
