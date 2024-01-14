@@ -1,38 +1,46 @@
 import { readFile } from 'fs/promises'
 import { existsSync } from 'fs'
 import { resolve, dirname } from 'path'
-import { z } from 'zod'
 import { fileURLToPath } from 'url'
+import { z } from 'zod'
 
 const _dirname =
   typeof __dirname !== 'undefined'
     ? __dirname
     : dirname(fileURLToPath(import.meta.url))
 
+const FrontMatterTypeSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  alternateTitle: z.string().optional(),
+  order: z.number().optional(),
+  toc: z.boolean().optional(),
+  hidden: z.boolean().optional(),
+  slug: z.string().optional(), // auto-generated
+  spacer: z.boolean().optional(), // auto-generated
+  section: z.string().optional(), // auto-generated
+})
+
+const MetadataMeta = z.record(z.string(), FrontMatterTypeSchema)
+
 const MetadataSchema = z.object({
   paths: z.record(z.string(), z.string()),
   hasIndex: z.boolean(),
   sections: z.array(z.string()),
-  meta: z.unknown(),
+  meta: MetadataMeta,
 })
 
-// const FrontMatterTypeSchema = z.object({
-//   title: z.string(),
-//   description: z.string().optional(),
-//   alternateTitle: z.string().optional(),
-//   order: z.number().optional(),
-//   toc: z.boolean().optional(),
-//   hidden: z.boolean().optional(),
-// })
+export type MetadataType = z.infer<typeof MetadataSchema>
+export type MetadataMetaType = z.infer<typeof MetadataMeta>
 
 const stripTrailingSlashes = (str: string): string => {
   return str.replace(/^\/|\/$/g, '')
 }
 
-const getParsedMetadata = async (tag: string) => {
+export const getParsedMetadata = async (tag: string) => {
   if (process.env.NODE_ENV === 'development') {
     const content = await readFile(
-      resolve(_dirname, '../../', `posts/${tag}/metadata.json`),
+      resolve(_dirname, '../../../', `posts/${tag}/metadata.json`),
       'utf-8'
     )
 
@@ -40,7 +48,10 @@ const getParsedMetadata = async (tag: string) => {
       return null
     }
 
-    return MetadataSchema.parse(JSON.parse(content))
+    console.log(Array.isArray(JSON.parse(content)))
+
+    return MetadataSchema.parse(JSON.parse(content)) // - why tf does this throw an error???
+    // return JSON.parse(content)
   }
 
   return null
@@ -49,8 +60,10 @@ const getParsedMetadata = async (tag: string) => {
 export const tagHasIndex = (tag: string) => {
   if (process.env.NODE_ENV === 'development') {
     // use metadata to handle the cross-checking
+    // const metadata = await getParsedMetadata(tag)
+    // return metadata?.hasIndex
     // or
-    return existsSync(resolve(_dirname, '../../', `posts/${tag}/_index.mdx`))
+    return existsSync(resolve(_dirname, '../../../', `posts/${tag}/_index.mdx`))
   }
 
   return null
@@ -64,7 +77,13 @@ export const tagHasIndex = (tag: string) => {
  */
 export const getPostContent = async (tag: string, slug: string) => {
   const metadata = await getParsedMetadata(tag)
-  const hasIndex = metadata?.hasIndex
+
+  // If no metadata, something is inherently wrong!
+  if (!metadata) {
+    throw new Error(
+      'No docs metadata found! Make sure to generate a metadata for your doc posts!'
+    )
+  }
 
   /**
    * If we are in development mode, we can just read the file from the file system.
@@ -73,10 +92,12 @@ export const getPostContent = async (tag: string, slug: string) => {
     const content = await readFile(
       resolve(
         _dirname,
-        '../../',
+        '../../../',
         `posts/${tag}/${
-          hasIndex ? '_index.mdx' : metadata?.paths[stripTrailingSlashes(slug)]
-        }`
+          slug === '/'
+            ? '_index'
+            : `${metadata.paths[stripTrailingSlashes(slug)]}`
+        }.mdx`
       ),
       'utf-8'
     )
@@ -89,6 +110,10 @@ export const getPostContent = async (tag: string, slug: string) => {
   }
 
   return null
+}
+
+export const redirectToFirstPost = async (tag: string) => {
+  return (await getParsedMetadata(tag))?.paths[0]
 }
 
 // export const getPostMetaData = async (version: string = 'main') => {
