@@ -18,14 +18,19 @@
   "dependencies": {
     "@epic-web/client-hints": "^1.2.2",
     "@epic-web/invariant": "^1.0.0",
+    "@headlessui/react": "^1.7.18",
     "@remix-run/node": "^2.4.1",
     "@remix-run/react": "^2.4.1",
     "@remix-run/serve": "^2.4.1",
+    "clsx": "^2.1.0",
     "cookie": "^0.6.0",
     "isbot": "^3.6.8",
+    "lucide-react": "^0.309.0",
     "mdx-bundler": "^10.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-spring": "^9.7.3",
+    "remix-utils": "^7.5.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
