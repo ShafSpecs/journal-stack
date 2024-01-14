@@ -5,4 +5,5 @@ export type FrontMatterType = {
   description?: string
   toc?: boolean
   hidden?: boolean
+  spacer?: boolean
 }
