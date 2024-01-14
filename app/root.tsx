@@ -6,8 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import type { LoaderFunctionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 
 import { ClientHints, getHints } from './components/ClientHint'
 import { useTheme } from './hooks/useTheme'
