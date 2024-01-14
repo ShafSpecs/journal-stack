@@ -27,7 +27,7 @@ tags.forEach(async tag => {
     const currentDirectory = resolve(postDirectory, tag)
 
     const metadataObject = {
-      paths: [] as Array<string>,
+      paths: {} as Record<string, string>,
       sections: {} as any,
       meta: {},
       hasIndex: false,
@@ -93,12 +93,16 @@ tags.forEach(async tag => {
       })
       .reduce((acc, curr) => {
         const slug = normalizePath(curr.data.slug).split('/').pop() as string
+        console.log(slug, curr.data.section)
         acc[slug] = {
           title: curr.data.title,
           alternateTitle: curr.data.alternateTitle,
           description: curr.data.description,
           section: sortedSections.find(s => s[1].slug === curr.data.section)[0],
+          slug,
         }
+
+        metadataObject.paths[slug] = `${curr.data.section}/${slug}`
 
         Object.keys(acc[slug]).forEach(key => {
           if (acc[slug][key] === undefined) {
@@ -114,10 +118,13 @@ tags.forEach(async tag => {
       if (index > 0 && _f[key].section !== _f[_fKeys[index - 1]].section) {
         _f[key].spacer = true
       }
+
+      if (index === 0) {
+        _f[key].spacer = true
+      }
     })
 
     metadataObject.sections = sortedSections.map(s => s[0])
-    metadataObject.paths = Object.keys(_f)
     metadataObject.meta = _f
 
     await writeFile(
