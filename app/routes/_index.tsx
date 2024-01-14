@@ -5,7 +5,7 @@ import { useRequestInfo } from '~/hooks/useRequestInfo'
 import { useOptimisticThemeMode } from '~/hooks/useTheme'
 
 export const loader = () => {
-  console.log(process.cwd(), import.meta.url)
+  // To add a landing page to your docs, remove this line.
   return redirect('/docs/main')
 }
 
