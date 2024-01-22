@@ -44,6 +44,11 @@ export const getParsedMetadata = async (tag: string) => {
       'utf-8'
     )
 
+    console.log(
+      tag,
+      content,
+      existsSync(resolve(_dirname, '../../../', `posts/${tag}/metadata.json`))
+    )
     if (!content) {
       return null
     }
@@ -114,6 +119,21 @@ export const getPostContent = async (tag: string, slug: string) => {
 
 export const redirectToFirstPost = async (tag: string) => {
   return (await getParsedMetadata(tag))?.paths[0]
+}
+
+export const getVersions = async () => {
+  const content = await readFile(
+    resolve(_dirname, '../../../', 'posts/versions.json'),
+    'utf-8'
+  )
+
+  if (!content) {
+    return null
+  }
+
+  return (JSON.parse(content) as Array<{ tag: string }>).map(
+    version => version.tag
+  )
 }
 
 // export const getPostMetaData = async (version: string = 'main') => {

@@ -1,0 +1,16 @@
+{
+  "paths": {
+    "quick-start": "started/quick-start"
+  },
+  "sections": [
+    "undefined"
+  ],
+  "meta": {
+    "quick-start": {
+      "section": "undefined",
+      "slug": "quick-start",
+      "spacer": true
+    }
+  },
+  "hasIndex": true
+}

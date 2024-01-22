@@ -1,13 +1,11 @@
 import clsx from 'clsx'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { Link } from '@remix-run/react'
+import { Link, useNavigate, useRouteLoaderData } from '@remix-run/react'
 import { ChevronDownIcon, RatioIcon, SearchIcon, XIcon } from 'lucide-react'
-import { ClientOnly } from 'remix-utils/client-only'
 import { Menu, Transition } from '@headlessui/react'
 import { useTransition, animated } from 'react-spring'
 
 import { RemixPWAThemeSwitcher as ThemeSwitcher } from '~/components/ThemeSwitcher'
-import { useWindowSize } from '~/hooks/useWindowSize'
 import { useSidebar } from '~/hooks/useSidebar'
 import { useOnClickOutside } from '~/hooks/useOnClickOutside'
 
@@ -20,57 +18,54 @@ function Breadcrumb({
   title: string
   setIsNavOpen: (arg0: boolean) => void
 }) {
-  const { width } = useWindowSize()
-  // const width = 1280
-
   return (
     <Fragment>
-      {width <= 1024 && (
-        <div className="flex select-none items-center border-b border-slate-900/10 p-4 lg:hidden dark:border-slate-50/[0.06]">
-          <button
-            type="button"
-            onClick={() => setIsNavOpen(true)}
-            className="text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
-          >
-            <span className="sr-only">Open side menu</span>
-            <svg width="24" height="24">
-              <path
-                d="M5 6h14M5 12h14M5 18h14"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-          {title && (
-            <ol className="ml-4 flex min-w-0 whitespace-nowrap text-sm leading-6">
-              {section && (
-                <li className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-                  {section}
-                  <svg
-                    width="3"
-                    height="6"
-                    aria-hidden="true"
-                    className="mx-3 overflow-visible text-slate-400"
-                  >
-                    <path
-                      d="M0 0L3 3L0 6"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </li>
-              )}
-              <li className="truncate font-semibold text-slate-900 dark:text-slate-200">
-                {title}
+      {/* {width <= 1024 && ( */}
+      <div className="flex select-none items-center border-b border-slate-900/10 p-4 dark:border-slate-50/[0.06] lg:hidden">
+        <button
+          type="button"
+          onClick={() => setIsNavOpen(true)}
+          className="text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+        >
+          <span className="sr-only">Open side menu</span>
+          <svg width="24" height="24">
+            <path
+              d="M5 6h14M5 12h14M5 18h14"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+        {title && (
+          <ol className="ml-4 flex min-w-0 whitespace-nowrap text-sm leading-6">
+            {section && (
+              <li className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+                {section}
+                <svg
+                  width="3"
+                  height="6"
+                  aria-hidden="true"
+                  className="mx-3 overflow-visible text-slate-400"
+                >
+                  <path
+                    d="M0 0L3 3L0 6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </li>
-            </ol>
-          )}
-        </div>
-      )}
+            )}
+            <li className="truncate font-semibold text-slate-900 dark:text-slate-200">
+              {title}
+            </li>
+          </ol>
+        )}
+      </div>
+      {/* )} */}
     </Fragment>
   )
 }
@@ -101,7 +96,7 @@ function MobileSidebar() {
       >
         <div
           ref={sidebarRef}
-          className="z-50 min-h-full w-80 max-w-xs bg-white px-4 pb-12 pt-5 sm:px-6 dark:bg-slate-900"
+          className="z-50 min-h-full w-80 max-w-xs bg-white px-4 pb-12 pt-5 dark:bg-slate-900 sm:px-6"
         >
           <div className="flex items-center">
             <button
@@ -141,7 +136,9 @@ export default function Header({
   title: string
   section: string
 }) {
+  const navigate = useNavigate()
   const { currentTag, setNavIsOpen } = useSidebar()
+  const { versions } = useRouteLoaderData('root') as { versions: string[] }
 
   const [isOpaque, setIsOpaque] = useState(false)
 
@@ -172,35 +169,24 @@ export default function Header({
   // }, [setClosed, width])
 
   // useEffect(() => {
-  //   setClosed(true)
-  // }, [location.pathname, setClosed])
+  //   setNavIsOpen(false)
+  // }, [location.pathname])
 
   return (
     <div
       className={clsx(
-        'sticky top-0 z-40 w-full flex-none backdrop-blur lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06]',
+        'sticky top-0 z-40 w-full flex-none backdrop-blur dark:border-slate-50/[0.06] lg:z-50 lg:border-b lg:border-slate-900/10',
         isOpaque
           ? 'bg-white supports-backdrop-blur:bg-white/95 dark:bg-slate-900/75'
           : 'bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent'
       )}
     >
-      {/* <div className="mr-6 flex content-center lg:hidden">
-        {/* Mobile menu button
-            <Disclosure.Button className="relative focus:outline-none focus:ring-0" onClick={() => { }}>
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="block w-6 h-6 stroke-2 stroke-slate-500" aria-hidden="true" />
-            </Disclosure.Button>
-        <button className="relative focus:outline-none focus:ring-0">
-          <span className="sr-only">Open main menu</span>
-          <MenuIcon className="block h-6 w-6 stroke-slate-500 stroke-2" />
-        </button>
-      </div> */}
       {/* --- Mobile Sidebar here --- */}
       <MobileSidebar />
       <div className="mx-auto max-w-8xl">
         <div
           className={
-            'mx-4 border-b border-slate-900/10 py-2 md:py-3 lg:mx-0 lg:border-0 lg:px-8 lg:py-4 dark:border-slate-300/10'
+            'mx-4 border-b border-slate-900/10 py-2 dark:border-slate-300/10 md:py-3 lg:mx-0 lg:border-0 lg:px-8 lg:py-4'
           }
         >
           <div className="relative flex items-center">
@@ -213,7 +199,7 @@ export default function Header({
               <span className="sr-only">Remix PWA home page</span>
               {/* <RemixLogo mobile height="h-10" width="w-11" />
             <RemixLogo height="h-10" width="w-11" /> */}
-              <p className="relative hidden font-[Benzin] text-2xl font-bold text-slate-700 md:flex dark:text-sky-100">
+              <p className="relative hidden font-[Benzin] text-2xl font-bold text-slate-700 dark:text-sky-100 md:flex">
                 Remix&nbsp;
                 <span className="bg-gradient-to-tr from-indigo-500 to-sky-300 bg-clip-text text-transparent dark:from-indigo-400 dark:to-sky-200">
                   PWA
@@ -223,13 +209,13 @@ export default function Header({
             <div className="relative ml-3">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  {/* <Menu.Button className="dark:highlight-white/5 flex items-center space-x-2 rounded-full bg-slate-400/10 px-3 py-1 text-sm font-semibold leading-5 text-slate-400 hover:bg-slate-400/20">
+                  <Menu.Button className="dark:highlight-white/5 flex items-center space-x-2 rounded-full bg-slate-400/10 px-3 py-1 text-sm font-semibold leading-5 text-slate-400 hover:bg-slate-400/20">
                     {currentTag}
                     <ChevronDownIcon
                       className="ml-2 h-3 w-3 stroke-slate-400 stroke-2"
                       aria-hidden="true"
                     />
-                  </Menu.Button> */}
+                  </Menu.Button>
                 </div>
                 <Transition
                   as={Fragment}
@@ -241,72 +227,48 @@ export default function Header({
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items className="dark:highlight-white/5 absolute left-0 top-full mt-1 w-40 origin-top-left rounded-lg bg-white py-2 text-sm font-semibold leading-6 text-slate-700 shadow ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300">
-                    {/* <Menu.Item disabled={getCurrentVersion() === 'main'}>
-                      {({ active }) => (
-                        <span
-                          className={clsx(
-                            getCurrentVersion() === 'main'
-                              ? 'flex items-center justify-between px-3 py-1 text-sky-500 dark:text-sky-400'
-                              : 'block px-3 py-1',
-                            active &&
-                              getCurrentVersion() !== 'main' &&
-                              'cursor-pointer bg-slate-50 text-slate-900 dark:bg-slate-600/30 dark:text-white'
-                          )}
-                          onClick={() => navigate('/docs/main/installation')}
-                        >
-                          main
-                          {getCurrentVersion() === 'main' ? (
-                            <svg
-                              width="24"
-                              height="24"
-                              fill="none"
-                              aria-hidden="true"
-                            >
-                              <path
-                                d="m7.75 12.75 2.25 2.5 6.25-6.5"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                              ) : null}
-                        </span>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item disabled={getCurrentVersion() === 'dev'}>
-                      {({ active }) => (
-                        <span
-                          className={clsx(
-                            getCurrentVersion() === 'dev'
-                              ? 'flex items-center justify-between px-3 py-1 text-sky-500 dark:text-sky-400'
-                              : 'block px-3 py-1',
-                            active &&
-                              getCurrentVersion() !== 'dev' &&
-                              'cursor-pointer bg-slate-50 text-slate-900 dark:bg-slate-600/30 dark:text-white'
-                          )}
-                          onClick={() => navigate('/docs/dev/installation')}
-                        >
-                          dev
-                          {getCurrentVersion() === 'dev' ? (
-                            <svg
-                              width="24"
-                              height="24"
-                              fill="none"
-                              aria-hidden="true"
-                            >
-                              <path
-                                d="m7.75 12.75 2.25 2.5 6.25-6.5"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                              ) : null}
-                        </span>
-                      )}
-                    </Menu.Item> */}
+                    {versions.map((version: string) => (
+                      <Menu.Item
+                        key={version}
+                        disabled={currentTag === version}
+                      >
+                        {({ active }) => (
+                          // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                          <span
+                            className={clsx(
+                              currentTag === version
+                                ? 'flex items-center justify-between px-3 py-1 text-sky-500 dark:text-sky-400'
+                                : 'block px-3 py-1',
+                              active &&
+                                currentTag !== version &&
+                                'cursor-pointer bg-slate-50 text-slate-900 dark:bg-slate-600/30 dark:text-white'
+                            )}
+                            onClick={() => navigate(`/docs/${version}`)}
+                            role="button"
+                            tabIndex={0}
+                          >
+                            {version}
+                            {/* eslint-disable-next-line multiline-ternary */}
+                            {currentTag === version ? (
+                              <svg
+                                width="24"
+                                height="24"
+                                fill="none"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="m7.75 12.75 2.25 2.5 6.25-6.5"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            ) : null}
+                          </span>
+                        )}
+                      </Menu.Item>
+                    ))}
                   </Menu.Items>
                 </Transition>
               </Menu>
@@ -314,7 +276,7 @@ export default function Header({
             <div className="relative flex flex-grow basis-0 justify-end gap-6 sm:gap-8">
               <div className="relative flex basis-0 content-center justify-end gap-6 sm:gap-6 md:flex-grow">
                 <button type="button" className="flex h-6 w-6 lg:hidden">
-                  <SearchIcon className="h-6 w-6 flex-none text-slate-400 group-hover:fill-slate-500 md:group-hover:text-slate-400 dark:text-slate-500" />
+                  <SearchIcon className="h-6 w-6 flex-none text-slate-400 group-hover:fill-slate-500 dark:text-slate-500 md:group-hover:text-slate-400" />
                   <span className="sr-only select-none">Search docs</span>
                 </button>
                 <div className="relative z-10">
@@ -340,15 +302,7 @@ export default function Header({
           </div>
         </div>
       </div>
-      <ClientOnly fallback={<div>Loading</div>}>
-        {() => (
-          <Breadcrumb
-            section={section}
-            title={title}
-            setIsNavOpen={setNavIsOpen}
-          />
-        )}
-      </ClientOnly>
+      <Breadcrumb section={section} title={title} setIsNavOpen={setNavIsOpen} />
     </div>
   )
 }

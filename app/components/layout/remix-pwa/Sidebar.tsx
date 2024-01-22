@@ -92,11 +92,11 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
   return (
     <nav ref={scrollRef} id="nav" className="relative lg:text-sm lg:leading-6">
       <div className="pointer-events-none sticky top-0 -ml-0.5">
-        {!mobile && <div className="h-10 bg-white dark:bg-slate-900" />}
-        {/* <div className="pointer-events-auto relative hidden bg-white lg:block dark:bg-slate-900">
+        <div className="hidden h-10 bg-white dark:bg-slate-900 lg:block" />
+        <div className="pointer-events-auto relative hidden bg-white dark:bg-slate-900 lg:block">
           <button
             type="button"
-            className="dark:highlight-white/5 hidden w-full items-center rounded-md py-1.5 pl-2 pr-3 text-sm leading-6 text-slate-400 shadow-sm outline-none ring-slate-900/10 hover:ring-slate-300 lg:flex dark:bg-slate-800 dark:hover:bg-slate-700"
+            className="dark:highlight-white/5 hidden w-full items-center rounded-md py-1.5 pl-2 pr-3 text-sm leading-6 text-slate-400 shadow-sm outline-none ring-slate-900/10 hover:ring-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 lg:flex"
           >
             <>
               <svg
@@ -123,29 +123,24 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              Quick search... */}
-        {/* eslint-disable-next-line multiline-ternary */}
-        {/* {actionKey ? (
+              Quick search...
+              {/* eslint-disable-next-line multiline-ternary */}
+              {actionKey ? (
                 <span className="ml-auto flex-none pl-3 text-xs font-semibold">
                   {actionKey[0]}K
                 </span>
               ) : null}
             </>
           </button>
-        </div> */}
-        {!mobile && (
-          <div className="h-8 bg-gradient-to-b from-white dark:from-slate-900" />
-        )}
+        </div>
+        <div className="hidden h-8 bg-gradient-to-b from-white dark:from-slate-900 lg:block" />
       </div>
       <ul className="lg:-mt-6">
-        {/* {meta.map((el: MetaDataObject, i: number) => (
-          <NavItem key={`${i}-${el.name}`} {...el} />
-        ))} */}
         {docList.map(
           (section: { section: string; children: any[] }, index: number) => {
             return (
               <li className="mt-12 lg:mt-8" key={index}>
-                <h3 className="mb-8 font-semibold text-slate-900 lg:mb-3 dark:text-slate-200">
+                <h3 className="mb-8 font-semibold text-slate-900 dark:text-slate-200 lg:mb-3">
                   {section.section}
                 </h3>
                 <ul
@@ -233,24 +228,6 @@ export function RemixPWASidebarProvider({
             <div className="lg:pl-[19.5rem]">{children}</div>
           </div>
         </Wrapper>
-        {/* <p>Todo: Sidebar Wrapper (Sidebar provider)</p>
-        {Object.values(metadata.meta).reduce((acc, item, index) => {
-          // Check if the current item starts a new section
-          if (item.spacer || index === 0) {
-            acc.push(<h2 key={`section-${index}`}>{item.section}</h2>)
-          }
-
-          // Add the item to the sidebar
-          acc.push(
-            <div key={`item-${index}`} className="sidebar-item">
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </div>
-          )
-
-          return acc
-        }, [] as any)}
-        {children} */}
       </RemixPWASidebarContext.Provider>
     </Fragment>
   )

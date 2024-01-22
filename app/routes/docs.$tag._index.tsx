@@ -17,6 +17,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   }
 
   const postContent = (await getPostContent(tag, '/')) ?? '' // handle null cases later
+
   const { code, frontmatter } = await mdxToHtml(postContent)
 
   return json({
