@@ -5,4 +5,8 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   plugins: [remix(), tsconfigPaths(), remixDevTools()],
+  server: {
+    open: true,
+    port: 3000,
+  },
 })
