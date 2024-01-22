@@ -28,6 +28,7 @@ module.exports = {
         functions: 'never',
       },
     ],
+    'multiline-tenary': 'off',
     'import/order': [
       'error',
       {

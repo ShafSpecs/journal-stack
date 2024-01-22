@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { Fragment, useEffect, useId, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Link } from '@remix-run/react'
 import { ChevronDownIcon, RatioIcon, SearchIcon, XIcon } from 'lucide-react'
 import { ClientOnly } from 'remix-utils/client-only'
@@ -11,7 +11,15 @@ import { useWindowSize } from '~/hooks/useWindowSize'
 import { useSidebar } from '~/hooks/useSidebar'
 import { useOnClickOutside } from '~/hooks/useOnClickOutside'
 
-function Breadcrumb({ section, title }: { section: string; title: string }) {
+function Breadcrumb({
+  section,
+  setIsNavOpen,
+  title,
+}: {
+  section: string
+  title: string
+  setIsNavOpen: (arg0: boolean) => void
+}) {
   const { width } = useWindowSize()
   // const width = 1280
 
@@ -19,22 +27,22 @@ function Breadcrumb({ section, title }: { section: string; title: string }) {
     <Fragment>
       {width <= 1024 && (
         <div className="flex select-none items-center border-b border-slate-900/10 p-4 lg:hidden dark:border-slate-50/[0.06]">
-          {/* <Disclosure.Button
-          type="button"
-          onClick={() => setClosed(false)}
-          className="text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
-        >
-          <span className="sr-only">Open side menu</span>
-          <svg width="24" height="24">
-            <path
-              d="M5 6h14M5 12h14M5 18h14"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        </Disclosure.Button> */}
+          <button
+            type="button"
+            onClick={() => setIsNavOpen(true)}
+            className="text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+          >
+            <span className="sr-only">Open side menu</span>
+            <svg width="24" height="24">
+              <path
+                d="M5 6h14M5 12h14M5 18h14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
           {title && (
             <ol className="ml-4 flex min-w-0 whitespace-nowrap text-sm leading-6">
               {section && (
@@ -78,7 +86,7 @@ function MobileSidebar() {
   const sidebarRef = useRef<HTMLDivElement>(null)
 
   useOnClickOutside(sidebarRef, () => {
-    setNavIsOpen(true)
+    setNavIsOpen(false)
   })
 
   return sideBartransitions((style, item) =>
@@ -133,10 +141,9 @@ export default function Header({
   title: string
   section: string
 }) {
-  const { currentTag } = useSidebar()
+  const { currentTag, setNavIsOpen } = useSidebar()
 
   const [isOpaque, setIsOpaque] = useState(false)
-  const id = useId()
 
   useEffect(() => {
     const offset = 50
@@ -170,7 +177,6 @@ export default function Header({
 
   return (
     <div
-      data-id={id}
       className={clsx(
         'sticky top-0 z-40 w-full flex-none backdrop-blur lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06]',
         isOpaque
@@ -217,13 +223,13 @@ export default function Header({
             <div className="relative ml-3">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="dark:highlight-white/5 flex items-center space-x-2 rounded-full bg-slate-400/10 px-3 py-1 text-sm font-semibold leading-5 text-slate-400 hover:bg-slate-400/20">
+                  {/* <Menu.Button className="dark:highlight-white/5 flex items-center space-x-2 rounded-full bg-slate-400/10 px-3 py-1 text-sm font-semibold leading-5 text-slate-400 hover:bg-slate-400/20">
                     {currentTag}
                     <ChevronDownIcon
                       className="ml-2 h-3 w-3 stroke-slate-400 stroke-2"
                       aria-hidden="true"
                     />
-                  </Menu.Button>
+                  </Menu.Button> */}
                 </div>
                 <Transition
                   as={Fragment}
@@ -311,7 +317,6 @@ export default function Header({
                   <SearchIcon className="h-6 w-6 flex-none text-slate-400 group-hover:fill-slate-500 md:group-hover:text-slate-400 dark:text-slate-500" />
                   <span className="sr-only select-none">Search docs</span>
                 </button>
-                {/* <label className="sr-only">Theme</label> */}
                 <div className="relative z-10">
                   <ThemeSwitcher />
                 </div>
@@ -336,7 +341,13 @@ export default function Header({
         </div>
       </div>
       <ClientOnly fallback={<div>Loading</div>}>
-        {() => <Breadcrumb section={section} title={title} />}
+        {() => (
+          <Breadcrumb
+            section={section}
+            title={title}
+            setIsNavOpen={setNavIsOpen}
+          />
+        )}
       </ClientOnly>
     </div>
   )

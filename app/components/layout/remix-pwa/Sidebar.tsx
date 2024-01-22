@@ -93,11 +93,10 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
     <nav ref={scrollRef} id="nav" className="relative lg:text-sm lg:leading-6">
       <div className="pointer-events-none sticky top-0 -ml-0.5">
         {!mobile && <div className="h-10 bg-white dark:bg-slate-900" />}
-        <div className="pointer-events-auto relative bg-white dark:bg-slate-900">
-          {/* Todo: Extract this as a separate `SearchButton` */}
+        {/* <div className="pointer-events-auto relative hidden bg-white lg:block dark:bg-slate-900">
           <button
             type="button"
-            className="dark:highlight-white/5 hidden w-full items-center rounded-md py-1.5 pl-2 pr-3  text-sm leading-6 text-slate-400 shadow-sm outline-none ring-slate-900/10 hover:ring-slate-300 lg:flex dark:bg-slate-800 dark:hover:bg-slate-700"
+            className="dark:highlight-white/5 hidden w-full items-center rounded-md py-1.5 pl-2 pr-3 text-sm leading-6 text-slate-400 shadow-sm outline-none ring-slate-900/10 hover:ring-slate-300 lg:flex dark:bg-slate-800 dark:hover:bg-slate-700"
           >
             <>
               <svg
@@ -124,15 +123,16 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
                   strokeLinejoin="round"
                 />
               </svg>
-              Quick search...
-              {actionKey && (
+              Quick search... */}
+        {/* eslint-disable-next-line multiline-ternary */}
+        {/* {actionKey ? (
                 <span className="ml-auto flex-none pl-3 text-xs font-semibold">
                   {actionKey[0]}K
                 </span>
-              )}
+              ) : null}
             </>
           </button>
-        </div>
+        </div> */}
         {!mobile && (
           <div className="h-8 bg-gradient-to-b from-white dark:from-slate-900" />
         )}
