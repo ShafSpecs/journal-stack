@@ -44,16 +44,9 @@ export const getParsedMetadata = async (tag: string) => {
       'utf-8'
     )
 
-    console.log(
-      tag,
-      content,
-      existsSync(resolve(_dirname, '../../../', `posts/${tag}/metadata.json`))
-    )
     if (!content) {
       return null
     }
-
-    console.log(Array.isArray(JSON.parse(content)))
 
     return MetadataSchema.parse(JSON.parse(content)) // - why tf does this throw an error???
     // return JSON.parse(content)
@@ -118,7 +111,8 @@ export const getPostContent = async (tag: string, slug: string) => {
 }
 
 export const redirectToFirstPost = async (tag: string) => {
-  return (await getParsedMetadata(tag))?.paths[0]
+  const paths = (await getParsedMetadata(tag))?.paths ?? {}
+  return Object.keys(paths)[0]
 }
 
 export const getVersions = async () => {

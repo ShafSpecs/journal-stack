@@ -1,6 +1,11 @@
 import clsx from 'clsx'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate, useRouteLoaderData } from '@remix-run/react'
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useRouteLoaderData,
+} from '@remix-run/react'
 import { ChevronDownIcon, RatioIcon, SearchIcon, XIcon } from 'lucide-react'
 import { Menu, Transition } from '@headlessui/react'
 import { useTransition, animated } from 'react-spring'
@@ -137,10 +142,17 @@ export default function Header({
   section: string
 }) {
   const navigate = useNavigate()
-  const { currentTag, setNavIsOpen } = useSidebar()
+  const location = useLocation()
+  const { setNavIsOpen } = useSidebar()
   const { versions } = useRouteLoaderData('root') as { versions: string[] }
 
   const [isOpaque, setIsOpaque] = useState(false)
+  const [currentTag, setTag] = useState(location.pathname.split('/')[2])
+
+  useEffect(() => {
+    // Duplicate of sidebar provider
+    setTag(location.pathname.split('/')[2])
+  }, [location.pathname])
 
   useEffect(() => {
     const offset = 50

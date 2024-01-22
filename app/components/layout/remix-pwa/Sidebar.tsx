@@ -85,7 +85,7 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
     const result = Object.keys(reduced).map(section => {
       return { section, children: reduced[section] }
     })
-    console.log(result)
+
     setDocList(result)
   }, [meta])
 
@@ -208,22 +208,24 @@ export function RemixPWASidebarProvider({
   const location = useLocation()
 
   const [navIsOpen, setNavIsOpen] = useState(false)
-  const [tag, setTag] = useState<string>(DEFAULT_TAG)
+  const [currentTag, setTag] = useState<string>(location.pathname.split('/')[2])
 
   useEffect(() => {
-    setTag(location.pathname.split('/')[2] ?? DEFAULT_TAG)
-  }, [metadata, location.pathname])
+    // Doesn't update universally? If you are able to solve,
+    // remove the duplicate in ./Header.tsx
+    setTag(location.pathname.split('/')[2])
+  }, [location.pathname])
 
   return (
     <Fragment>
       <Header section="Getting Started" title="Hello World" />
       <RemixPWASidebarContext.Provider
-        value={{ navIsOpen, setNavIsOpen, currentTag: tag }}
+        value={{ navIsOpen, setNavIsOpen, currentTag }}
       >
         <Wrapper allowOverflow={allowOverflow}>
           <div className="mx-auto max-w-8xl px-4 sm:px-6 md:px-8">
             <div className="sidebar-content fixed inset-0 left-[max(0px,calc(50%-45rem))] right-auto top-[3.8125rem] z-20 hidden w-[19rem] overflow-y-auto pb-10 pl-8 pr-6 lg:block">
-              <DocList meta={metadata.meta} tag={tag} />
+              <DocList meta={metadata.meta} tag={currentTag} />
             </div>
             <div className="lg:pl-[19.5rem]">{children}</div>
           </div>
