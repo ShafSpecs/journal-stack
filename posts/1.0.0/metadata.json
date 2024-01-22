@@ -1,16 +1,37 @@
 {
   "paths": {
-    "quick-start": "started/quick-start"
+    "quick-start": "started/quick-start",
+    "advanced-guide": "guides/advanced-guide",
+    "examples": "guides/examples"
   },
   "sections": [
-    "undefined"
+    "Getting Started",
+    "Guides"
   ],
   "meta": {
     "quick-start": {
-      "section": "undefined",
+      "title": "Quick Start Guide",
+      "alternateTitle": "Beginner's Guide",
+      "description": "This guide helps new users to quickly set up and start using our product.",
+      "section": "Getting Started",
       "slug": "quick-start",
       "spacer": true
+    },
+    "advanced-guide": {
+      "title": "Advanced Usage Guide",
+      "alternateTitle": "Pro Tips and Tricks",
+      "description": "Detailed guide for advanced features of our product.",
+      "section": "Guides",
+      "slug": "advanced-guide",
+      "spacer": true
+    },
+    "examples": {
+      "title": "Real-World Examples",
+      "alternateTitle": "Case Studies",
+      "description": "Examples of how our product has been used in various scenarios.",
+      "section": "Guides",
+      "slug": "examples"
     }
   },
-  "hasIndex": true
+  "hasIndex": false
 }
