@@ -91,7 +91,6 @@ tags.forEach(async tag => {
     })
     .reduce((acc, curr) => {
       const slug = normalizePath(curr.data.slug).split('/').pop() as string
-      console.log(slug, curr.data.section)
       acc[slug] = {
         title: curr.data.title,
         alternateTitle: curr.data.alternateTitle,
