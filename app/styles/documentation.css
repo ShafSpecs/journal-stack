@@ -1,0 +1,27 @@
+#article-main {
+  & :is(:where(input):not(:where([class~="not-prose"] *)):where(input[type="checkbox"])) {
+    display: none;
+  }
+
+  & :is(:where(pre):has(code)) > code {
+    @apply font-normal !important;
+  }
+
+  & :is(:where(h2):has(code)) > code {
+    @apply text-2xl font-bold !important;
+  }
+
+  & :is(:where(h3):has(code)) > code {
+    @apply text-xl font-semibold !important;
+  }
+}
+
+#article-main:not(:has(h3)) {
+  & :is(h2) {
+    @apply flex whitespace-pre-wrap text-2xl font-bold mb-4 text-[#10172A] dark:text-[#e2e8f0] !important;
+  }
+
+  & :is(:where(h2):has(code)) > code {
+    @apply text-xl font-bold !important;
+  }
+}

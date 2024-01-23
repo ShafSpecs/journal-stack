@@ -14,8 +14,10 @@ import { useTheme } from './hooks/useTheme'
 import { getTheme } from './utils/server/theme.server'
 import { getVersions } from './utils/server/doc.server'
 
-import './styles/tailwind.css'
+import './styles/documentation.css'
 import './styles/fonts.css'
+import './styles/night-owl.css'
+import './styles/tailwind.css'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const versions = (await getVersions()) ?? []
