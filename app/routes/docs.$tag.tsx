@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs } from '@remix-run/node'
 import type { ClientLoaderFunctionArgs } from '@remix-run/react'
 import { Outlet, useLoaderData, json as clientJson } from '@remix-run/react'
 
-import { RemixPWASidebarProvider as SidebarProvider } from '~/components/layout/remix-pwa/Sidebar'
+import { RemixPWASidebar as Sidebar } from '~/components/layout/remix-pwa/Sidebar'
 import { getParsedMetadata } from '~/utils/server/doc.server'
 import type { MetadataType } from '~/utils/server/doc.server'
 
@@ -21,6 +21,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   return json({
     metadata,
+    tag: params.tag,
   })
 }
 
@@ -44,6 +45,7 @@ export const clientLoader = async ({
 
   return clientJson({
     metadata,
+    tag: params.tag,
   })
 }
 
@@ -53,8 +55,8 @@ export default function TagRoute() {
   }>()
 
   return (
-    <SidebarProvider metadata={metadata}>
+    <Sidebar metadata={metadata}>
       <Outlet />
-    </SidebarProvider>
+    </Sidebar>
   )
 }

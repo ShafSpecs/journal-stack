@@ -1,5 +1,5 @@
-import { Fragment, createContext, useEffect, useRef, useState } from 'react'
-import type { Dispatch, ReactNode, SetStateAction } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import { NavLink, useLocation } from '@remix-run/react'
 import clsx from 'clsx'
 
@@ -8,7 +8,6 @@ import { useActionKey } from '~/hooks/useActionKey'
 import { nearestScrollableContainer } from '~/utils/client/nearest-scrollable-container'
 import { useMediaQuery } from '~/hooks/useMediaQuery'
 import type { MetadataMetaType, MetadataType } from '~/utils/server/doc.server'
-import { DEFAULT_TAG } from '~/utils/defatult'
 
 import Header from './Header'
 
@@ -186,51 +185,36 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
   )
 }
 
-const RemixPWASidebarContext = createContext<{
-  currentTag: string
-  navIsOpen: boolean
-  setNavIsOpen: Dispatch<SetStateAction<boolean>>
-}>({ navIsOpen: false, setNavIsOpen: () => {}, currentTag: DEFAULT_TAG })
-
-export { RemixPWASidebarContext as SidebarContext }
-
-type RemixPWASidebarProviderProps = {
+type RemixPWASidebarProps = {
   metadata: MetadataType
   children?: ReactNode
   layoutProps?: { allowOverflow?: boolean }
 }
 
-export function RemixPWASidebarProvider({
+export function RemixPWASidebar({
   children,
   layoutProps: { allowOverflow = true } = {},
   metadata,
-}: RemixPWASidebarProviderProps) {
+}: RemixPWASidebarProps) {
   const location = useLocation()
 
-  const [navIsOpen, setNavIsOpen] = useState(false)
   const [currentTag, setTag] = useState<string>(location.pathname.split('/')[2])
 
   useEffect(() => {
-    // Doesn't update universally? If you are able to solve,
-    // remove the duplicate in ./Header.tsx
     setTag(location.pathname.split('/')[2])
   }, [location.pathname])
 
   return (
     <Fragment>
       <Header section="Getting Started" title="Hello World" />
-      <RemixPWASidebarContext.Provider
-        value={{ navIsOpen, setNavIsOpen, currentTag }}
-      >
-        <Wrapper allowOverflow={allowOverflow}>
-          <div className="mx-auto max-w-8xl px-4 sm:px-6 md:px-8">
-            <div className="sidebar-content fixed inset-0 left-[max(0px,calc(50%-45rem))] right-auto top-[3.8125rem] z-20 hidden w-[19rem] overflow-y-auto pb-10 pl-8 pr-6 lg:block">
-              <DocList meta={metadata.meta} tag={currentTag} />
-            </div>
-            <div className="lg:pl-[19.5rem]">{children}</div>
+      <Wrapper allowOverflow={allowOverflow}>
+        <div className="mx-auto max-w-8xl px-4 sm:px-6 md:px-8">
+          <div className="sidebar-content fixed inset-0 left-[max(0px,calc(50%-45rem))] right-auto top-[3.8125rem] z-20 hidden w-[19rem] overflow-y-auto pb-10 pl-8 pr-6 lg:block">
+            <DocList meta={metadata.meta} tag={currentTag} />
           </div>
-        </Wrapper>
-      </RemixPWASidebarContext.Provider>
+          <div className="lg:pl-[19.5rem]">{children}</div>
+        </div>
+      </Wrapper>
     </Fragment>
   )
 }
