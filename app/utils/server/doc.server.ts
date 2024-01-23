@@ -130,32 +130,23 @@ export const getVersions = async () => {
   )
 }
 
-// export const getPostMetaData = async (version: string = 'main') => {
-//   /**
-//    * If we are in development mode, we can just read the file from the file system.
-//    */
-//   if (process.env.NODE_ENV === 'development') {
-//     /**
-//      * Don't want to automate this part cause I don't feel like.
-//      *
-//      * Before you run `npm run dev`, run `npm run generator` first. This keeps the post metadata up to date,
-//      * if you add a new post or delete, open another terminal and re-run. Then refresh your application to
-//      * get the latest metadata.
-//      *
-//      * Todo: Generate metadata in development without the use of a github token.
-//      */
-//     const content = await readFile(
-//       resolve(__dirname, '../', 'posts/metadata.json'),
-//       'utf-8'
-//     )
+export const getPreviousAndNextRoutes = async (
+  tag: string,
+  slug: string
+): Promise<
+  [
+    z.infer<typeof FrontMatterTypeSchema> | null,
+    z.infer<typeof FrontMatterTypeSchema> | null,
+  ]
+> => {
+  const metadata = await getParsedMetadata(tag)
+  const paths = metadata?.paths ?? {}
+  const keys = Object.keys(paths)
+  const index = keys.indexOf(stripTrailingSlashes(slug))
 
-//     if (!content) {
-//       return null
-//     }
-//     const parsed_content = JSON.parse(content)
+  const prev = index === 0 ? null : metadata?.meta[keys[index - 1]] ?? null
+  const next =
+    index === keys.length - 1 ? null : metadata?.meta[keys[index + 1]] ?? null
 
-//     return z.array(MetaDataObjectSchema).parse(parsed_content)
-//   }
-
-//   return null
-// }
+  return [prev, next]
+}
