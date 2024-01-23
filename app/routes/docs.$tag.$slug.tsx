@@ -1,6 +1,10 @@
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 
-import { getPostContent } from '~/utils/server/doc.server'
+import { Documentation } from '~/components/layout/remix-pwa/Documentation'
+import {
+  getPostContent,
+  getPreviousAndNextRoutes,
+} from '~/utils/server/doc.server'
 import { mdxToHtml } from '~/utils/server/mdx.server'
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -9,17 +13,17 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   const postContent = (await getPostContent(tag, slug)) ?? '' // handle null cases later
   const { code, frontmatter } = await mdxToHtml(postContent)
+  const [prev, next] = await getPreviousAndNextRoutes(tag, slug)
 
   return json({
     frontmatter,
     code,
+    next,
+    prev,
+    tag,
   })
 }
 
 export default function DocRoute() {
-  return (
-    <div>
-      <p>Sht</p>
-    </div>
-  )
+  return <Documentation />
 }
