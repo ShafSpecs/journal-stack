@@ -14,6 +14,7 @@ import { useTransition, animated } from 'react-spring'
 import { RemixPWAThemeSwitcher as ThemeSwitcher } from '~/components/ThemeSwitcher'
 import { useOnClickOutside } from '~/hooks/useOnClickOutside'
 import type { MetadataType } from '~/utils/server/doc.server'
+import { DEFAULT_TAG } from '~/utils/defatult'
 
 function Breadcrumb({
   section,
@@ -180,7 +181,7 @@ function MobileSidebar({
                             >
                               <NavLink
                                 prefetch="intent"
-                                to={`/docs/${tag}/${sub.slug}`}
+                                to={`/docs/${tag ?? DEFAULT_TAG ?? 'main'}/${sub.slug}`}
                                 end={true}
                               >
                                 {({ isActive }) => (
