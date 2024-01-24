@@ -39,6 +39,7 @@
     "remark-gfm": "^4.0.0",
     "remix-utils": "^7.5.0",
     "unist-util-filter": "^5.0.1",
+    "valtio": "^1.13.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
