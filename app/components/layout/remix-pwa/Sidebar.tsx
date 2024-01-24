@@ -8,6 +8,7 @@ import { useActionKey } from '~/hooks/useActionKey'
 import { nearestScrollableContainer } from '~/utils/client/nearest-scrollable-container'
 import { useMediaQuery } from '~/hooks/useMediaQuery'
 import type { MetadataMetaType, MetadataType } from '~/utils/server/doc.server'
+import { DEFAULT_TAG } from '~/utils/defatult'
 
 import Header from './Header'
 
@@ -153,7 +154,7 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
                       <li className="" key={sub.alternateTitle ?? sub.title}>
                         <NavLink
                           prefetch="intent"
-                          to={`/docs/${tag}/${sub.slug}`}
+                          to={`/docs/${tag ?? DEFAULT_TAG ?? 'main'}/${sub.slug}`}
                           end={true}
                         >
                           {({ isActive }) => (

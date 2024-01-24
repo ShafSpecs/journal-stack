@@ -74,6 +74,9 @@ export async function mdxToHtml(source: string) {
         './snippet.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Snippet.tsx')
         ).toString(),
+        '~/utils/contexts/TOCContext': readFileSync(
+          join(cwd(), 'app', 'utils/contexts/TOCContext.ts')
+        ).toString(),
       },
       mdxOptions(options) {
         options.rehypePlugins = [...(options.rehypePlugins || []), role, slug]
