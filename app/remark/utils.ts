@@ -93,7 +93,7 @@ Prism.hooks.add('after-tokenize', ({ language, tokens }) => {
   }
 })
 
-export function fixSelectorEscapeTokens(tokens: any) {
+function fixSelectorEscapeTokens(tokens: any) {
   for (const token of tokens) {
     if (typeof token === 'string') continue
     if (token.type !== 'selector') continue
@@ -290,7 +290,7 @@ function appendTypes(types: string | any[], add: any) {
 // are always of type "plain".
 // This is not recursive to avoid exceeding the call-stack limit, since it's unclear
 // how nested Prism's tokens can become
-export function normalizeTokens(tokens: any) {
+function normalizeTokens(tokens: any) {
   const typeArrStack: any = [[]]
   const tokenArrStack = [tokens]
   const tokenArrIndexStack = [0]
@@ -359,14 +359,4 @@ export function normalizeTokens(tokens: any) {
 
   normalizeEmptyLines(currentLine)
   return acc
-}
-
-export function simplifyToken(token: { type: any; content: any[] }): any {
-  if (typeof token === 'string') return token
-  return [
-    token.type,
-    Array.isArray(token.content)
-      ? token.content.map(simplifyToken)
-      : token.content,
-  ]
 }

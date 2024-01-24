@@ -1,23 +1,9 @@
 import slugify from '@sindresorhus/slugify'
 import { toString } from 'mdast-util-to-string'
-import { parseExpressionAt, parse } from 'acorn'
+import { parseExpressionAt } from 'acorn'
 import { filter } from 'unist-util-filter'
-import type { Node } from 'acorn'
 
-function addExport(
-  tree: { children: { type: string; value: any; data: { estree: Node } }[] },
-  name: any,
-  value: string
-) {
-  value = `export const ${name} = ${JSON.stringify(value)}`
-  tree.children.push({
-    type: 'mdxjsEsm',
-    value,
-    data: {
-      estree: parse(value, { ecmaVersion: 'latest', sourceType: 'module' }),
-    },
-  })
-}
+import { addExport } from './utils'
 
 export default () => {
   return (tree: any) => {
@@ -37,15 +23,15 @@ export default () => {
           )
         )
         let slug = slugify(title)
-        const allOtherSlugs = contents.flatMap(entry => [
-          entry.slug,
-          ...entry.children.map(({ slug }) => slug),
-        ])
-        let slugIndex = 1
-        while (allOtherSlugs.indexOf(slug) > -1) {
-          slug = `${slugify(title)}-${slugIndex}`
-          slugIndex++
-        }
+        // const allOtherSlugs = contents.flatMap(entry => [
+        //   entry.slug,
+        //   ...entry.children.map(({ slug }) => slug),
+        // ])
+        // let slugIndex = 1
+        // while (allOtherSlugs.indexOf(slug) > -1) {
+        //   slug = `${slugify(title)}-${slugIndex}`
+        //   slugIndex++
+        // }
 
         node.type = 'mdxJsxFlowElement'
 
