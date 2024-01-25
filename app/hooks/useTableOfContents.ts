@@ -64,5 +64,14 @@ export function useTableOfContents(tableOfContents: any) {
     }
   }, [headings, tableOfContents])
 
-  return { currentSection, registerHeading, unregisterHeading }
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // @ts-expect-error
+      window.registerHeading = registerHeading
+      // @ts-expect-error
+      window.unregisterHeading = unregisterHeading
+    }
+  }, [registerHeading, unregisterHeading])
+
+  return { currentSection }
 }

@@ -1,6 +1,4 @@
-import { useContext, useEffect } from 'react'
-
-import { TOCContext } from '~/utils/contexts/TOCContext'
+import { useEffect } from 'react'
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -19,11 +17,21 @@ export default function Heading({
   ...props
 }: any) {
   const Component = `h${level}` as any
-  const context = useContext(TOCContext)
 
   useEffect(() => {
-    console.log('Heading.tsx: useEffect: context:', context)
-  }, [context])
+    if (typeof window === 'undefined') return
+
+    // @ts-expect-error
+    if (!window.registerHeading) return
+
+    // @ts-expect-error
+    window.registerHeading(id)
+
+    return () => {
+      // @ts-expect-error
+      window.unregisterHeading(id)
+    }
+  }, [id])
 
   return (
     <Component

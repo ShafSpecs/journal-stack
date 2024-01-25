@@ -186,7 +186,13 @@ export function EditorPane({
 }) {
   return (
     <div className="group bg-slate-800 pt-2 shadow-lg">
-      <TabBar primary={{ name: filename }} showTabMarkers={false}>
+      <TabBar
+        primary={{
+          name: filename,
+          saved: !code?.includes('language-diff'),
+        }}
+        showTabMarkers={true}
+      >
         <CopyButton code={redent(code?.replace(/<[^>]+>/g, '') ?? '') || ''} />
       </TabBar>
       <div
