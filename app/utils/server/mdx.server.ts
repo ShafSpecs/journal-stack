@@ -65,17 +65,14 @@ export async function mdxToHtml(source: string) {
         './heading.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Heading.tsx')
         ).toString(),
-        // './details.tsx': readFileSync(
-        //   join(cwd(), 'app', 'components/plugins/Details.tsx')
-        // ).toString(),
+        './details.tsx': readFileSync(
+          join(cwd(), 'app', 'components/plugins/Details.tsx')
+        ).toString(),
         './editor.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Editor.tsx')
         ).toString(),
         './snippet.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Snippet.tsx')
-        ).toString(),
-        '~/utils/contexts/TOCContext': readFileSync(
-          join(cwd(), 'app', 'utils/contexts/TOCContext.ts')
         ).toString(),
       },
       mdxOptions(options) {

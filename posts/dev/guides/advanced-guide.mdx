@@ -4,20 +4,419 @@ alternateTitle: "Pro Tips and Tricks"
 description: "Detailed guide for advanced features of our product."
 ---
 
-This guide provides in-depth information about the advanced features of our product.
+import Details from './details.tsx'
+import Warn from './warn.tsx'
+import Info from './info.tsx'
+import Snippet from './snippet.tsx'
 
-## Feature 1
+Background Synchronization API is a new web API that lets you defer actions until the user has stable connectivity. It is not yet supported in all browsers, but a lot of
+them already support it. You can check the support status [here](https://caniuse.com/#feat=background-sync).
 
-Detailed explanation of Feature 1.
+By default, Remix actions are triggered when a non-GET request is made, and the response is sent back to the user. If for some unfortunate reason,
+the user loses connection, the action will not be performed and that's it, end of story. This is where Background Sync comes in handy.
+It allows you to defer actions until the user has stable connectivity. This is useful for ensuring that whatever the user wants to send, is actually sent.
+Remix PWA ships this feature with the `@remix-pwa/sync` package, now you can ensure an action is performed, bad connection or not.
 
-## Feature 2
+Thanks a lot to Workbox for [their approach](https://developer.chrome.com/docs/workbox/modules/workbox-background-sync/), it gave us a lot of inspiration as well as an idea
+of how people would use this API. As you might have noticed, we decided not to go unique with our approaches, sticking to the standards that people are used to as much as possible.
 
-Instructions and tips for using Feature 2.
+---
 
-## Best Practices
+## Usage
 
-A list of best practices for efficient use of the product.
+### Synopsis
 
-## FAQs
+Background Sync starts actually listening for a [`sync`](https://developer.mozilla.org/en-US/docs/Web/API/SyncEvent) event in the service worker. This event is fired when the user has stable connection.
+The event is fired with a tag, which is the name of the sync event. You can use this tag to identify the sync event and perform the action you want to perform.
 
-Frequently asked questions and answers regarding advanced features.
+Think of it like a service that comes to you and says "Hey, you have stable connection now, do you want to do something?". You can then decide to do something or not.
+
+```diff-js {{ filename:'entry.worker.ts' }}
+self.addEventListener("sync", (event) => {
++  if (event.tag === "myFirstSync") {
++    // do something
++  }
+});
+```
+
+Tags are used for identification, so you can have multiple sync events with the same tag, and they will all be fired when the user has stable connection.
+Don't get too jumpy yet, we would look at [multiple scenarios](#multiple-scenarios) later that would give you a good idea.
+
+### Registering a sync event
+
+Typically, to register a sync event, you would do something like this:
+
+```js
+navigator.serviceWorker.ready.then((registration) => {
+  registration.sync.register("myFirstSync");
+});
+```
+
+This would tell the service worker to listen for a `sync` event with the tag `myFirstSync`. When the user has stable connection, the service worker would fire a `sync` event with the tag `myFirstSync`.
+Think of the tag like a primary key in a database, it is used to identify the sync event.
+
+<Details title={"I don't know anything about databases, can you give another example?"}>
+Let's use an example of a school here. A school has multiple classes that contains multiple students. 
+Each class is called something different from the other, but they all have students. Students also have different names, but they are all students belonging
+their respective classes.
+
+Think of the school like the sync event itself, the classes are tags, and the students are the actions you want to perform.
+
+You can have one student in a class, or 50 in a class, no problem. You can also have one class in the whole school (which is weird, ngl) but 500 students in that class, no
+problem (there's actually a problem but let's not get into that).
+
+</Details>
+
+In Remix PWA, there's a shorthand to all of this. You can register a sync event by simply calling the `registerSync` (or `registerQueue`, whichever you prefer)
+function exported from `@remix-pwa/sync`.
+
+```js {{ filename:'entry.worker.ts' }}
+import { registerSync } from "@remix-pwa/sync";
+
+// registers a sync event with the tag 'myFirstSync'
+registerSync("myFirstSync");
+```
+
+If you want to register multiple sync events, you can do so by calling the `registerSync` function multiple times with different tags.
+Or use the shorthand `registerAllSyncs` (or `registerAllQueues`) function, which takes an array of tags as an argument.
+
+```js {{ filename:'entry.worker.ts' }}
+import { registerAllSyncs } from "@remix-pwa/sync";
+
+// registers multiple sync events with the tags 'myFirstSync', 'mySecondSync', 'myThirdSync'
+registerAllSyncs(["myFirstSync", "mySecondSync", "myThirdSync"]);
+```
+
+<Info>
+  The `registerSync` function doesn't need to be in the `install` event handler. It can be anywhere in the service
+  worker, as long as it is called after the service worker has been registered and within your entry worker file (you
+  can't register an event in the routes, it would lead to unpredicatable results).
+</Info>
+
+### Listening for a sync event
+
+In classic JavaScript setting, to listen for a sync event, you would do something like this:
+
+```js
+self.addEventListener("sync", (event) => {
+  if (event.tag === "myFirstSync") {
+    // do something
+  }
+});
+```
+
+In Remix PWA, no need to do anything. The `registerSync` (which you introduced above) function automatically listens for the `sync` event and performs the action you want to perform,
+question is, what action do you want to perform?
+
+Currently, you can't just defined **any** action to perform. The only supported action is to make a request to a URL.
+This was an intentional decision, as we wanted to keep the API as simple as possible. We might add more actions in the future (depending on use cases, and requests),
+but for now, this is what we want to offer.
+
+So, now that we've cemented how to register a sync event, what actions are supported, let's look at how to perform that action and fire the request when we are back online.
+
+### Performing an action
+
+Before we dive into how to actually fire requests and what not, let's have a peek at how Remix PWA handles all this.
+
+When you register a sync event, Remix PWA creates a queue and stores the queue in the IndexedDB database using the tag as an index key.
+When the user has stable connection, the service worker fires a `sync` event with the tag and automatically under the hood gets the queue from the IndexedDB database and fires the requests in the queue in succession.
+
+<Info>
+  **Note:** These are not the exact steps, but it gives you a good idea of what's going on under the hood. It's all
+  automatic, you don't need to worry about anything.
+</Info>
+
+The question now is, how do you add requests to the queue? Or in other words, how does Remix PWA know what requests to fire when the user has stable connection?
+
+To add the requests to the queue, you would utilise the `queueToServer` function exported from `@remix-pwa/sync`. This function takes two arguments, the tag of the sync event, and the request you want to fire.
+
+<Snippet>
+
+```js {{ filename:'entry.worker.ts' }}
+import { registerSync } from "@remix-pwa/sync";
+
+// ...
+
+registerSync("myFirstSync");
+```
+
+```tsx {{ filename:'app/routes/send-message.ts' }}
+import { queueToServer } from "@remix-pwa/sync";
+import { sendMessageToUser } from "../utils/send-message-to-user.server.ts";
+import { json } from "@remix-run/node"; // or cloudflare/deno
+
+import type { ActionFunction } from "@remix-run/node";
+import type { WorkerActionArgs } from "@remix-pwa/sw";
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const formData = Object.fromEntries(form.entries());
+
+  const { message, recipient } = formData;
+
+  const { data, err } = await sendMessageToUser({
+    message,
+    recipient
+  });
+
+  if (err) {
+    return new Response(`Error: ${err}`, {
+      status: 500
+    });
+  }
+
+  return new json({ type: "SUCCESS", message: data }, 200);
+};
+
+export const workerAction = async ({ request, context }: WorkerActionArgs) => {
+  const { fetchFromServer, event } = context;
+
+  try {
+    const response = await fetchFromServer(request);
+    return response;
+  } catch (error) {
+    // if the user is offline, the request would be added to the queue
+    // and fired when the user is back online
+    await queueToServer({
+      name: "myFirstSync",
+      request: event.request.clone()
+    });
+  }
+
+  return new Response("Something went wrong", {
+    status: 500
+  });
+};
+```
+
+</Snippet>
+
+I hope you didn't get surprised I wrote a seemingly working code snippet ✨. Let's look at it.
+
+This is a pseudocode for sending message to a user. As you might have guessed, this is a resource route and whenever a non-`GET` request
+is made to this route, the `action` is triggered. But the `workerAction` intercepts it and then sends the request to the server like normal,
+but it introduces a clause in the `catch` block. If the fetch fails (user is offline), the `queueToServer` is incoked and the request is added to the queue automatically.
+
+In a real world scenario, you would want to do some extra error handling cause bad connectivity isn't the only reason a request might fail in this case.
+Additionally, you would probably want to send a notification (or something of that effect) to the user that the message has been queued and would be sent when the user is back online.
+
+<Warn>
+The `queueToServer` function is only available in the `workerAction` function. If you try to use it in the `action` function, it would throw an error.
+
+It is reserved for just the worker thread, meaning that you can't even use it in the client which runs in the main thread.
+</Warn>
+
+---
+
+## Examples
+
+### Multiple Scenarios
+
+Imagine for example, you have a book library PWA. Users can borrow books and return them. Users can also save a book for offline reading.
+They can also add a book to their wishlist to buy later.We have defined three different actions here, borrowing a book,
+saving a book for offline reading, and adding a book to the wishlist. All important to the user (for a good experience) but not all of them are of the same importance.
+
+In Remix, if the user is offline and they try to borrow a book, the action would fail and the user would be notified that they are offline via an `ErrorBoundary`
+defined. End of unfortunate story.
+
+But with Background Sync, you can defer the action until the user is back online. This is useful for ensuring that whatever the user wants to do, is actually done.
+Firstly, we can register three sync events, one for each action.
+
+<Snippet>
+
+```ts {{ filename:'entry.worker.ts' }}
+import { registerAllSyncs } from "@remix-pwa/sync";
+
+// registers multiple sync events with the tags 'borrowBook', 'saveBook', 'addToWishlist'
+registerAllSyncs(["borrowBook", "saveBook", "addToWishlist"]);
+```
+
+```ts {{ filename:'app/routes/borrow-book.ts' }}
+// Resource route to borrow book and add it to the user's library
+import { queueToServer } from "@remix-pwa/sync";
+import { borrowBook } from "../utils/borrow-book.server.ts";
+import { json } from "@remix-run/node"; // or cloudflare/deno
+
+import type { ActionFunction } from "@remix-run/node";
+import type { WorkerActionArgs } from "@remix-pwa/sw";
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const formData = Object.fromEntries(form.entries());
+
+  const { bookId } = formData;
+
+  const success = await borrowBook({
+    bookId
+  });
+
+  if (!success) {
+    return new Response(`Something went wrong`, {
+      status: 500
+    });
+  }
+
+  return new json(null, 200);
+};
+
+export const workerAction = async ({ request, context }: WorkerActionArgs) => {
+  const { fetchFromServer, event } = context;
+
+  try {
+    const response = await fetchFromServer(request);
+    return response;
+  } catch (error) {
+    // if the user is offline, the request would be added to the queue
+    // and fired when the user is back online
+    await queueToServer({
+      name: "borrowBook",
+      request: event.request.clone()
+    });
+  }
+
+  return new Response("Something went wrong", {
+    status: 500
+  });
+};
+```
+
+```ts {{ filename:'app/routes/save-book.ts' }}
+// Resource route to save book for offline reading
+import { queueToServer } from "@remix-pwa/sync";
+import { saveBook } from "../utils/save-book.server.ts";
+import { json } from "@remix-run/node"; // or cloudflare/deno
+
+import type { ActionFunction } from "@remix-run/node";
+import type { WorkerActionArgs } from "@remix-pwa/sw";
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const formData = Object.fromEntries(form.entries());
+
+  const { bookId } = formData;
+
+  await saveBook({
+    bookId
+  });
+
+  return new json(null, 200);
+};
+
+export const workerAction = async ({ request, context }: WorkerActionArgs) => {
+  const { fetchFromServer, event } = context;
+
+  try {
+    const response = await fetchFromServer(request);
+    return response;
+  } catch (error) {
+    // if the user is offline, the request would be added to the queue
+    // and fired when the user is back online
+    await queueToServer({
+      name: "saveBook",
+      request: event.request.clone()
+    });
+  }
+
+  return new Response("Something went wrong", {
+    status: 500
+  });
+};
+```
+
+```ts {{ filename:'app/routes/add-to-wishlist.ts' }}
+// Resource route to add book to wishlist
+import { queueToServer } from "@remix-pwa/sync";
+import { addToWishlist } from "../utils/add-to-wishlist.server.ts";
+import { json } from "@remix-run/node"; // or cloudflare/deno
+
+import type { ActionFunction } from "@remix-run/node";
+import type { WorkerActionArgs } from "@remix-pwa/sw";
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const formData = Object.fromEntries(form.entries());
+
+  const { bookId } = formData;
+
+  await addToWishlist({
+    bookId
+  });
+
+  return new json(null, 200);
+};
+
+export const workerAction = async ({ request, context }: WorkerActionArgs) => {
+  const { fetchFromServer, event } = context;
+
+  try {
+    const response = await fetchFromServer(request);
+    return response;
+  } catch (error) {
+    // if the user is offline, the request would be added to the queue
+    // and fired when the user is back online
+    await queueToServer({
+      name: "addToWishlist",
+      request: event.request.clone()
+    });
+  }
+
+  return new Response("Something went wrong", {
+    status: 500
+  });
+};
+```
+
+</Snippet>
+
+Now, when the user is offline and they try to borrow a book, the request would be added to the queue and fired when the user is back online.
+Same for wishlisting and saving for offline reading. 
+
+**Note:** You can use the same tag in multiple places. It's not a 1:1 relationship (one tag per request/action). You can have multiple requests/actions with the same tag.
+
+<Details title={"Why multiple tags when they all end up performing the same action?"}>
+Good question, two things:
+
+- The first of which is that it is possible for a sync event to fail. By default, browsers replay (retry) sync events at their own 
+defined intervals (you can't dictate that) when the request fails. By separating sync events based on importance, events fail in clusters
+instead of everything failing at once. 
+
+- The second an most important is actually a feature that's coming in the near future, Max Retention Time (MRT). MRT is a feature that allows you to define how long a sync event should be retained for.
+In the example above, saving for offline reading is more important than wishlisting, so you can define a longer MRT for saving for offline reading than wishlisting. This helps with storage
+(not that your requests should cause storage issues) and also helps with performance.
+
+This is an experimental API. And things are still rolling out and being defined. We would update this documentation when the API is more stable and we have a better idea of how to use it.
+
+Plus, we are constantly on the lookout for feedback and improvements. One thing we are considering is to provide a way to *prioritise* sync events. This would allow you to define which sync event should be fired first
+and more frequently which would help with the first point above.
+</Details>
+
+<Info>
+Got more scenarios? Feel free to ping me or open a PR to add them here :+1:.
+</Info>
+
+---
+
+## What's Next?
+
+### Roadmap
+
+We are constantly on the lookout for feedback and improvements. One thing I pride myself as is a constant learner, and I am always looking for ways to improve myself and my work.
+
+We are considering a lot of things, but here are some of the things we are considering:
+
+- [ ] Provide a way to *prioritise* sync events. This would allow you to define which sync event should be fired first and more frequently which would help with the first point above.
+- [ ] Provide a way to define the MRT (Max Retention Time) for sync events. This would allow you to define how long a sync event should be retained for.
+- [ ] Provide a way to define the maximum number of retries for a sync event. This would allow you to define how many times a sync event should be retried before it is discarded.
+- [ ] Provide a way to define the interval between retries for a sync event. This would allow you to define how long a sync event should wait before retrying.
+- [ ] Provide a way to define the maximum number of sync events that can be queued. This would allow you to define how many sync events can be queued at a time.
+
+Note, these are just ideas and we are still considering them. Based on how this API evolves, some of them might be impossible so don't hold your breath 😁.
+
+### Ok, so what?
+
+Ok so we have discussed all these things, but what's the point? Why should you care? Why should you use Background Sync?
+
+> Ideally, you’d use it to schedule any data sending that you care about beyond the life of the page. 
+> Chat messages, emails, document updates, settings changes, photo uploads… anything that you want to reach the server even if user navigates away or closes the tab.
+>
+> — [Google Developers](https://developer.chrome.com/blog/background-sync/#what-could-i-use-background-sync-for)
