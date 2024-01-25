@@ -26,7 +26,7 @@
   font-display: block;
   font-style: normal;
   font-named-instance: "Regular";
-  src: url("/fonts/FiraCode/FiraCode-Regular.ttf") format("ttf");
+  src: url("/fonts/FiraCode/FiraCode-Regular.ttf");
 }
 
 @font-face {
@@ -35,7 +35,16 @@
   font-display: block;
   font-style: normal;
   font-named-instance: "Medium";
-  src: url("/fonts/FiraCode/FiraCode-Medium.ttf") format("ttf");
+  src: url("/fonts/FiraCode/FiraCode-Medium.ttf");
+}
+
+
+/* -- SpaceTime Font -- */
+@font-face {
+  font-family: "Space";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/Space/Space.ttf");
 }
 
 /* Feel free to add more fonts here! */

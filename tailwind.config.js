@@ -221,6 +221,7 @@ export default {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
         fira: ['Fira Code', ...defaultTheme.fontFamily.mono],
+        space: ['Space', ...defaultTheme.fontFamily.sans],
       },
       maxWidth: {
         '8xl': '90rem',
