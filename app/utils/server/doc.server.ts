@@ -48,11 +48,21 @@ export const getParsedMetadata = async (tag: string) => {
       return null
     }
 
-    return MetadataSchema.parse(JSON.parse(content)) // - why tf does this throw an error???
+    return MetadataSchema.parse(JSON.parse(content))
     // return JSON.parse(content)
   }
 
-  return null
+  // return null
+  const content = await readFile(
+    resolve(_dirname, '../../', `posts/${tag}/metadata.json`),
+    'utf-8'
+  )
+
+  if (!content) {
+    return null
+  }
+
+  return MetadataSchema.parse(JSON.parse(content))
 }
 
 export const tagHasIndex = (tag: string) => {
@@ -64,7 +74,8 @@ export const tagHasIndex = (tag: string) => {
     return existsSync(resolve(_dirname, '../../../', `posts/${tag}/_index.mdx`))
   }
 
-  return null
+  // return null
+  return existsSync(resolve(_dirname, '../../', `posts/${tag}/_index.mdx`))
 }
 
 /**
@@ -126,8 +137,25 @@ export const getFirstPost = async (tag: string) => {
 }
 
 export const getVersions = async () => {
+  if (process.env.NODE_ENV === 'development') {
+    const content = await readFile(
+      resolve(_dirname, '../../../', 'posts/versions.json'),
+      'utf-8'
+    )
+
+    if (!content) {
+      return null
+    }
+
+    return (JSON.parse(content) as Array<{ tag: string }>).map(
+      version => version.tag
+    )
+  }
+
+  // Temporary fix for production
+
   const content = await readFile(
-    resolve(_dirname, '../../../', 'posts/versions.json'),
+    resolve(_dirname, '../../', 'posts/versions.json'),
     'utf-8'
   )
 

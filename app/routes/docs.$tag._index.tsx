@@ -23,7 +23,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { code, frontmatter } = await mdxToHtml(postContent)
   const next = await getFirstPost(tag)
 
-  console.log({ next })
   return json({
     frontmatter,
     code,

@@ -207,6 +207,9 @@ export function RemixPWASidebar({
     setTag(location.pathname.split('/')[2])
 
     const currentPost = metadata.meta[location.pathname.split('/')[3]]
+
+    if (!currentPost) return
+
     setCurrentSection(currentPost.section ?? '')
     setCurrentTitle(currentPost.alternateTitle ?? currentPost.title)
   }, [location.pathname, metadata])

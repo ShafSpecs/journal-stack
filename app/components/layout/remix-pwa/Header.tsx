@@ -45,7 +45,8 @@ function Breadcrumb({
             />
           </svg>
         </Disclosure.Button>
-        {title && (
+        {/* eslint-disable-next-line multiline-ternary */}
+        {section.length > 0 ? (
           <ol className="ml-4 flex min-w-0 whitespace-nowrap text-sm leading-6">
             {section && (
               <li className="flex items-center text-sm text-slate-500 dark:text-slate-400">
@@ -68,6 +69,12 @@ function Breadcrumb({
             )}
             <li className="truncate font-semibold text-slate-900 dark:text-slate-200">
               {title}
+            </li>
+          </ol>
+        ) : (
+          <ol className="ml-4 flex min-w-0 whitespace-nowrap text-sm leading-6">
+            <li className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+              Journal Stack Home
             </li>
           </ol>
         )}
