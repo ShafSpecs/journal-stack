@@ -28,7 +28,7 @@ export default function Index() {
             <div className="absolute inset-0 bg-slate-950/75 mix-blend-multiply" />
           </section>
           <section className="lg:pb-18 relative px-4 pb-8 pt-16 sm:px-6 sm:pb-14 sm:pt-24 lg:px-8 lg:pt-32">
-            <h1 className="overflow-hidden text-center text-7xl font-medium sm:text-6xl lg:text-8xl">
+            <h1 className="select-none overflow-hidden text-center text-7xl font-medium sm:text-6xl lg:text-8xl">
               <span className="font-space block pb-2 pr-2 text-center uppercase text-white drop-shadow-md">
                 <span className="text-center">Journal&nbsp;</span>
                 <span className="block h-full bg-gradient-to-tr from-indigo-500 to-sky-300 bg-clip-text pb-1 pr-1 text-center text-transparent dark:from-indigo-500 dark:to-sky-300 sm:inline sm:pb-0">
@@ -39,7 +39,7 @@ export default function Index() {
             <p className="mx-auto mt-8 max-w-lg text-center text-lg text-white sm:max-w-3xl md:mt-12">
               Check the{' '}
               <a
-                href="https://github.com/ShafSpecs/rockspec-stack/blob/main/README.md"
+                href="https://github.com/ShafSpecs/journal-stack/blob/main/README.md"
                 target={'_blank'}
                 className="text-white no-underline focus:text-white"
                 rel="noreferrer"
