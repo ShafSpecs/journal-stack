@@ -14,9 +14,9 @@ import { useTheme } from './hooks/useTheme'
 import { getTheme } from './utils/server/theme.server'
 import { getVersions } from './utils/server/doc.server'
 
+import './styles/code.css'
 import './styles/documentation.css'
 import './styles/fonts.css'
-import './styles/night-owl.css'
 import './styles/tailwind.css'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -40,7 +40,7 @@ export default function Document() {
   const theme = useTheme()
 
   return (
-    <html lang="en" className={`h-full overflow-x-hidden ${theme}`}>
+    <html lang="en" className={`h-full overflow-x-hidden ${theme} antialiased`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
