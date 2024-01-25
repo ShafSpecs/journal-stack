@@ -115,5 +115,5 @@ module.exports = {
       },
     },
   ],
-  ignorePatterns: ['**/node_modules/**', '**/build/**'],
+  ignorePatterns: ['**/node_modules/**', '**/build/**', '**/*.d.ts'],
 }
