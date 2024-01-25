@@ -200,14 +200,20 @@ export function RemixPWASidebar({
   const location = useLocation()
 
   const [currentTag, setTag] = useState<string>(location.pathname.split('/')[2])
+  const [currentSection, setCurrentSection] = useState<string>('')
+  const [currentTitle, setCurrentTitle] = useState<string>('')
 
   useEffect(() => {
     setTag(location.pathname.split('/')[2])
-  }, [location.pathname])
+
+    const currentPost = metadata.meta[location.pathname.split('/')[3]]
+    setCurrentSection(currentPost.section ?? '')
+    setCurrentTitle(currentPost.alternateTitle ?? currentPost.title)
+  }, [location.pathname, metadata])
 
   return (
     <Fragment>
-      <Header section="Getting Started" title="Hello World" />
+      <Header section={currentSection} title={currentTitle} />
       <Wrapper allowOverflow={allowOverflow}>
         <div className="mx-auto max-w-8xl px-4 sm:px-6 md:px-8">
           <div className="sidebar-content fixed inset-0 left-[max(0px,calc(50%-45rem))] right-auto top-[3.8125rem] z-20 hidden w-[19rem] overflow-y-auto pb-10 pl-8 pr-6 lg:block">

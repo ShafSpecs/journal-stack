@@ -12,10 +12,12 @@ import Editor from '~/components/plugins/editor'
 import Heading from '~/components/plugins/Heading'
 import { useTableOfContents } from '~/hooks/useTableOfContents'
 
-function RemixPWADocumentation() {
-  const { code, frontmatter, next, prev, tag } = useRouteLoaderData<any>(
-    'routes/docs.$tag.$slug'
-  )
+function RemixPWADocumentation({
+  route = 'routes/docs.$tag.$slug',
+}: {
+  route?: string
+}) {
+  const { code, frontmatter, next, prev, tag } = useRouteLoaderData<any>(route)
 
   const Component = useMemo(
     () =>
@@ -74,7 +76,12 @@ function RemixPWADocumentation() {
   )
 
   return (
-    <div className="mx-auto max-w-3xl pt-10 xl:ml-0 xl:mr-[15.5rem] xl:max-w-none xl:pr-16">
+    <div
+      className={clsx(
+        'mx-auto max-w-3xl pt-10 xl:max-w-none',
+        frontmatter.toc ? 'xl:ml-0 xl:mr-[15.5rem] xl:pr-16' : ''
+      )}
+    >
       <div className="mb-8 flex-auto scroll-smooth">
         <article>
           <header id="header" className="relative z-20">
@@ -139,10 +146,12 @@ function RemixPWADocumentation() {
             </div>
           )}
         </dl>
+        {/* Hack to get some space at the bottom of the page */}
+        <div className="h-12 w-full bg-transparent" />
       </div>
-      <div className="fixed bottom-0 right-[max(0px,calc(50%-45rem))] top-[3.8125rem] z-20 hidden w-[19.5rem] overflow-y-auto py-10 xl:block">
-        {/* eslint-disable-next-line multiline-ternary */}
-        {frontmatter.toc ? (
+      {/* eslint-disable-next-line multiline-ternary */}
+      {frontmatter.toc ? (
+        <div className="fixed bottom-0 right-[max(0px,calc(50%-45rem))] top-[3.8125rem] z-20 hidden w-[19.5rem] overflow-y-auto py-10 xl:block">
           <nav aria-labelledby="on-this-page-title" className="px-8">
             {/* eslint-disable-next-line multiline-ternary */}
             {tableOfContents.length > 0 ? (
@@ -214,8 +223,8 @@ function RemixPWADocumentation() {
               ))}
             </ol>
           </nav>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -140,9 +140,12 @@ function MobileSidebar({
           ref={sidebarRef}
           className="z-50 min-h-full w-80 max-w-xs bg-white px-4 pb-12 pt-5 dark:bg-slate-900 sm:px-6"
         >
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
+            <Link to={'/'}>
+              <RatioIcon className="h-7 w-7" />
+            </Link>
             <Disclosure.Button
-              className="relative mr-6 focus:outline-none focus:ring-0"
+              className="relative focus:outline-none focus:ring-0"
               onClick={() => setNavIsOpen(false)}
             >
               <XIcon
@@ -151,10 +154,6 @@ function MobileSidebar({
                 aria-hidden="true"
               />
             </Disclosure.Button>
-            <Link to={'/'}>
-              {/* <RemixLogo mobile /> */}
-              <RatioIcon />
-            </Link>
           </div>
           <nav className="mt-5 px-1 text-base lg:text-sm">
             <ul className="space-y-8">
@@ -297,24 +296,23 @@ export default function Header({
                 'mx-4 border-b border-slate-900/10 py-2 dark:border-slate-300/10 md:py-3 lg:mx-0 lg:border-0 lg:px-8 lg:py-4'
               }
             >
-              <div className="relative flex items-center">
+              <div className="relative flex content-center items-center">
                 <Link
                   aria-label="Home page"
                   to="/"
                   reloadDocument
                   className="md:flex"
                 >
-                  <span className="sr-only">Remix PWA home page</span>
-                  {/* <RemixLogo mobile height="h-10" width="w-11" />
-            <RemixLogo height="h-10" width="w-11" /> */}
-                  <p className="relative hidden font-[Benzin] text-2xl font-bold text-slate-700 dark:text-sky-100 md:flex">
-                    Remix&nbsp;
-                    <span className="bg-gradient-to-tr from-indigo-500 to-sky-300 bg-clip-text text-transparent dark:from-indigo-400 dark:to-sky-200">
-                      PWA
+                  <RatioIcon className="mr-2 h-7 w-7 self-center text-center md:hidden" />
+                  <span className="sr-only">Journal Stack home page</span>
+                  <p className="font-space relative hidden text-4xl text-slate-700 dark:text-sky-100 md:flex">
+                    <span className="mr-2">Journal</span>
+                    <span className="h-full bg-gradient-to-tr from-indigo-500 to-sky-300 bg-clip-text pr-1 text-transparent dark:from-indigo-400 dark:to-sky-200">
+                      Stack
                     </span>
                   </p>
                 </Link>
-                <div className="relative ml-3">
+                <div className="relative ml-3 pt-1.5">
                   <Menu as="div" className="relative inline-block text-left">
                     <div>
                       <Menu.Button className="dark:highlight-white/5 flex items-center space-x-2 rounded-full bg-slate-400/10 px-3 py-1 text-sm font-semibold leading-5 text-slate-400 hover:bg-slate-400/20">

@@ -115,6 +115,16 @@ export const redirectToFirstPost = async (tag: string) => {
   return Object.keys(paths)[0]
 }
 
+export const getFirstPost = async (tag: string) => {
+  const meta = (await getParsedMetadata(tag)) ?? null
+  if (!meta) {
+    throw new Error('No metadata found! Make sure your version is correct!')
+  }
+
+  const paths = meta.paths ?? {}
+  return meta.meta[Object.keys(paths)[0]]
+}
+
 export const getVersions = async () => {
   const content = await readFile(
     resolve(_dirname, '../../../', 'posts/versions.json'),

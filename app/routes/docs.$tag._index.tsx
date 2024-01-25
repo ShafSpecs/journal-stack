@@ -1,7 +1,9 @@
 import { json, redirect } from '@remix-run/node'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 
+import { Documentation } from '~/components/layout/remix-pwa/Documentation'
 import {
+  getFirstPost,
   getPostContent,
   redirectToFirstPost,
   tagHasIndex,
@@ -19,18 +21,18 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const postContent = (await getPostContent(tag, '/')) ?? '' // handle null cases later
 
   const { code, frontmatter } = await mdxToHtml(postContent)
+  const next = await getFirstPost(tag)
 
+  console.log({ next })
   return json({
     frontmatter,
     code,
+    next,
+    prev: null,
+    tag,
   })
 }
 
 export default function TagRoute() {
-  return (
-    <div>
-      <p>Escapee</p>
-      Sht - index
-    </div>
-  )
+  return <Documentation route="routes/docs.$tag._index" />
 }
