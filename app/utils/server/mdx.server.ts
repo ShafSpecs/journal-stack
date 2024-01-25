@@ -90,7 +90,15 @@ export async function mdxToHtml(source: string) {
       },
     })
 
-    return { code, frontmatter }
+    return {
+      code,
+      frontmatter: {
+        ...frontmatter,
+        toc: frontmatter.toc ?? true,
+        hidden: frontmatter.hidden ?? false,
+        alternateTitle: frontmatter.alternateTitle ?? frontmatter.title,
+      },
+    }
   } catch (err) {
     console.error(err)
     throw err

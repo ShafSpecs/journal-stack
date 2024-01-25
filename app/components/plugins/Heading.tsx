@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react'
 import { useEffect } from 'react'
 
 export function classNames(...classes: string[]) {
@@ -33,6 +34,25 @@ export default function Heading({
     }
   }, [id])
 
+  const scrollIntoView = (
+    e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
+    id: string
+  ) => {
+    if (e.currentTarget.parentNode?.nodeName.toUpperCase().includes('H')) {
+      e.preventDefault()
+
+      const scrollToTargetBounds = e.currentTarget.getBoundingClientRect()
+      const offset = scrollToTargetBounds.top + window.scrollY - 106
+
+      window.scrollTo({
+        top: offset,
+        behavior: 'smooth',
+      })
+
+      window.history.pushState(null, '', `${window.location.pathname}#${id}`)
+    }
+  }
+
   return (
     <Component
       className={classNames(
@@ -55,6 +75,9 @@ export default function Heading({
           hidden ? 'sr-only' : 'lg:-ml-2 lg:pl-2'
         )}
         href={`#${id}`}
+        onClick={e => {
+          scrollIntoView(e, id)
+        }}
       >
         <div className="absolute -ml-8 hidden items-center border-0 opacity-0 group-hover:opacity-100 group-focus:opacity-100 lg:flex">
           &#8203;
