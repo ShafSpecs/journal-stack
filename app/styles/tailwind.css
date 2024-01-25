@@ -18,3 +18,7 @@ html {
 body {
   background-color: var(--background-color);
 }
+
+.dark {
+  color-scheme: dark;
+}
