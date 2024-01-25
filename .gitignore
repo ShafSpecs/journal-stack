@@ -6,4 +6,4 @@ node_modules
 
 ./test-results
 ./coverage
-./playwright-report
+./playwright-report/**
