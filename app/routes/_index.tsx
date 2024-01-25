@@ -86,6 +86,11 @@ export default function Index() {
               href: 'https://fly.io',
             },
             {
+              src: 'https://avatars.githubusercontent.com/u/2232217?s=200&v=4',
+              alt: 'AWS S3',
+              href: 'https://aws.amazon.com/',
+            },
+            {
               src: 'https://mdx-logo.now.sh',
               alt: 'MDX',
               href: 'https://mdxjs.com',
@@ -95,11 +100,21 @@ export default function Index() {
               alt: 'Tailwind',
               href: 'https://tailwindcss.com',
             },
-            // {
-            //   src: "https://user-images.githubusercontent.com/1500684/157772447-00fccdce-9d12-46a3-8bb4-fac612cdc949.svg",
-            //   alt: "Vitest",
-            //   href: "https://vitest.dev",
-            // },
+            {
+              src: 'https://playwright.dev/img/playwright-logo.svg',
+              alt: 'Playwright',
+              href: 'https://playwright.dev/',
+            },
+            {
+              src: 'https://user-images.githubusercontent.com/1500684/157772447-00fccdce-9d12-46a3-8bb4-fac612cdc949.svg',
+              alt: 'Vitest',
+              href: 'https://vitest.dev',
+            },
+            {
+              src: 'https://user-images.githubusercontent.com/1500684/157772662-92b0dd3a-453f-4d18-b8be-9fa6efde52cf.png',
+              alt: 'Testing Library',
+              href: 'https://testing-library.com',
+            },
             {
               src: 'https://user-images.githubusercontent.com/1500684/157772934-ce0a943d-e9d0-40f8-97f3-f464c0811643.svg',
               alt: 'Prettier',
