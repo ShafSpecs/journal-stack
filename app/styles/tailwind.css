@@ -19,6 +19,6 @@ body {
   background-color: var(--background-color);
 }
 
-.dark {
+.dark :not(.placeholder-index) {
   color-scheme: dark;
 }
