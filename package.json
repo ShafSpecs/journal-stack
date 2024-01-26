@@ -28,6 +28,8 @@
     "@epic-web/invariant": "^1.0.0",
     "@headlessui/react": "^1.7.18",
     "@octokit/request": "^8.1.6",
+    "@remix-pwa/sw": "^2.2.0-dev.2",
+    "@remix-pwa/worker-runtime": "^2.1.0-dev.1",
     "@remix-run/node": "^2.5.0",
     "@remix-run/react": "^2.5.0",
     "@remix-run/serve": "^2.5.0",
@@ -54,6 +56,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.41.1",
+    "@remix-pwa/dev": "^2.1.0-dev.6",
     "@remix-run/dev": "^2.5.0",
     "@remix-run/eslint-config": "^2.5.0",
     "@tailwindcss/typography": "0.5.9",
