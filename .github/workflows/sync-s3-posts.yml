@@ -19,8 +19,16 @@ jobs:
     - name: 📦 Install dependencies
       run: npm ci
 
+    - name: 🌳 Extract Repository Name
+      run: echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d '/' -f 2)" >> $GITHUB_ENV
+
     - name: ⚡ Generate docs metadata
       run: npm run generate:metadata
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_OWNER: ${{ github.repository_owner }}
+        GITHUB_REPO: $REPO_NAME
+
 
     - name: 🏁 Check for changes
       id: git-check
