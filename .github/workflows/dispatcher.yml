@@ -11,11 +11,11 @@ jobs:
   wait-and-trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: ✅ Checkout code
         uses: actions/checkout@v4
 
-      - name: 5️⃣ Wait for 5 seconds
-        run: sleep 5
+      - name: 🔟 Wait for 10 seconds
+        run: sleep 10
 
       - name: 🔀 Check for newer commits
         id: check-commits
@@ -35,6 +35,6 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/ShafSpecs/journal-stack/actions/workflows/sync-s3-posts.yml/dispatches \
+            https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/actions/workflows/sync-s3-posts.yml/dispatches \
             -d "{\"ref\":\"main\"}"
 
