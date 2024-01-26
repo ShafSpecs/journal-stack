@@ -10,6 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: 🛡️ Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -21,7 +22,19 @@ jobs:
     - name: ⚡ Generate docs metadata
       run: npm run generate:metadata
 
+    - name: 🏁 Check for changes
+      id: git-check
+      run: |
+        if git diff HEAD^ HEAD -- posts/; then
+          echo "No changes detected."
+          echo "::set-output name=changes::false"
+        else
+          echo "Changes detected."
+          echo "::set-output name=changes::true"
+        fi
+
     - name: 🪣 Sync to S3
+      if: steps.git-check.outputs.changes == 'true'
       uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete
