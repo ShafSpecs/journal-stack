@@ -9,10 +9,13 @@ jobs:
   wait-and-trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for 30 seconds
-        run: sleep 30
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Check for newer commits
+      - name: 5️⃣ Wait for 5 seconds
+        run: sleep 5
+
+      - name: 🔀 Check for newer commits
         id: check-commits
         run: |
           LATEST_COMMIT=$(git log -1 --format='%H')
@@ -22,7 +25,7 @@ jobs:
             echo "::set-output name=stop::true"
           fi
 
-      - name: Trigger main workflow
+      - name: ⚡ Trigger main workflow
         if: steps.check-commits.outputs.stop != 'true'
         run: |
           curl -X POST \
