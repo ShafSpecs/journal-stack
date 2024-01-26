@@ -1,0 +1,34 @@
+name: Delayed Trigger
+
+on:
+  push:
+    branches:
+      - main #  change to `docs` later
+
+jobs:
+  wait-and-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for 30 seconds
+        run: sleep 30
+
+      - name: Check for newer commits
+        id: check-commits
+        run: |
+          LATEST_COMMIT=$(git log -1 --format='%H')
+          CURRENT_COMMIT=${{ github.sha }}
+          if [ "$LATEST_COMMIT" != "$CURRENT_COMMIT" ]; then
+            echo "Newer commit found. Stopping workflow."
+            echo "::set-output name=stop::true"
+          fi
+
+      - name: Trigger main workflow
+        if: steps.check-commits.outputs.stop != 'true'
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/sync-s3-posts.yml/dispatches \
+            -d '{"ref":"main"}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

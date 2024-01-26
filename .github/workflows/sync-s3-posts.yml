@@ -1,9 +1,7 @@
-name: Sync docs with S3
+name: 🔁 Sync docs with S3
 
 on:
-  push:
-    branches:
-      - main #  change to `docs` later
+  workflow_dispatch:
 
 jobs:
   build:
