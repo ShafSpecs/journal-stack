@@ -3,10 +3,22 @@ import { readFile, readdir, writeFile } from 'fs/promises'
 import { existsSync, statSync, readdirSync, readFileSync } from 'fs'
 import matter from 'gray-matter'
 import { normalizePath } from 'vite'
+import { request } from '@octokit/request'
+import 'dotenv/config'
 
 console.log('Generating metadata...')
 
-const __dirname = resolve()
+const __dirname =
+  process.env.NODE_ENV === 'production'
+    ? resolve()
+    : process.env.GITHUB_WORKSPACE ?? ''
+
+// const octokit = request.defaults({
+//   headers: {
+//     authorization: `token ${process.env.GITHUB_TOKEN}`,
+//   },
+// })
+
 /**
  * The reserved name for the index file of every doc section
  *
@@ -20,6 +32,7 @@ const versions = await readFile(
   'utf-8'
 )
 const tags = JSON.parse(versions).map((v: any) => v.tag) as Array<string>
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 tags.forEach(async tag => {
   const currentDirectory = resolve(postDirectory, tag)
@@ -124,9 +137,48 @@ tags.forEach(async tag => {
   metadataObject.sections = sortedSections.map(s => s[0])
   metadataObject.meta = _f
 
-  await writeFile(
-    resolve(currentDirectory, 'metadata.json'),
-    JSON.stringify(metadataObject, null, 2),
-    'utf-8'
-  )
+  if (process.env.NODE_ENV === 'development') {
+    await writeFile(
+      resolve(currentDirectory, 'metadata.json'),
+      JSON.stringify(metadataObject, null, 2),
+      'utf-8'
+    )
+  } else {
+    const { data } = await request(
+      'GET /repos/{owner}/{repo}/contents/{path}',
+      {
+        owner: process.env.GITHUB_OWNER ?? '',
+        repo: process.env.GITHUB_REPO ?? '',
+        path: `posts/${tag}/metadata.json`,
+      }
+    )
+
+    // @ts-ignore
+    const content = Buffer.from(data.content, 'base64').toString('utf-8')
+
+    if (content === JSON.stringify(metadataObject, null, 2)) {
+      console.log(`No changes observed in ${tag} version. Skipping...`)
+      await delay(1_000)
+      return
+    }
+
+    // @ts-ignore
+    const sha = data.sha
+
+    await request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner: process.env.GITHUB_OWNER ?? '',
+      repo: process.env.GITHUB_REPO ?? '',
+      path: `posts/${tag}/metadata.json`,
+      message: '📃 Update metadata.json',
+      content: Buffer.from(JSON.stringify(metadataObject, null, 2)).toString(
+        'base64'
+      ),
+      sha,
+      headers: {
+        authorization: `token ${process.env.GITHUB_TOKEN}`,
+      },
+    })
+
+    await delay(3_000)
+  }
 })
