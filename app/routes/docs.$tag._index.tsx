@@ -12,7 +12,7 @@ import { mdxToHtml } from '~/utils/server/mdx.server'
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const tag = params.tag ?? 'main'
-  const hasIndex = tagHasIndex(tag)
+  const hasIndex = await tagHasIndex(tag)
 
   if (!hasIndex) {
     throw redirect(`/docs/${tag}/${await redirectToFirstPost(tag)}`)

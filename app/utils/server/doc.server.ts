@@ -3,6 +3,20 @@ import { existsSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { z } from 'zod'
+import { S3 } from '@aws-sdk/client-s3'
+
+// A nice todo would be implementing a cache for fetching from S3, if you can help with that, please do! :)
+// Thx
+
+const s3 = new S3({
+  apiVersion: '2012-10-17',
+  region: 'eu-north-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+  },
+  maxAttempts: 3,
+})
 
 const _dirname =
   typeof __dirname !== 'undefined'
@@ -49,23 +63,21 @@ export const getParsedMetadata = async (tag: string) => {
     }
 
     return MetadataSchema.parse(JSON.parse(content))
-    // return JSON.parse(content)
   }
 
-  // return null
-  const content = await readFile(
-    resolve(_dirname, '../../', `posts/${tag}/metadata.json`),
-    'utf-8'
-  )
+  const promise = await s3.getObject({
+    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Key: `posts/${tag}/metadata.json`,
+  })
 
-  if (!content) {
-    return null
-  }
+  const content =
+    (await promise.Body?.transformToString()) ||
+    '{\npaths: {},\nhasIndex: false,\nsections: [],\nmeta: {},\n}'
 
   return MetadataSchema.parse(JSON.parse(content))
 }
 
-export const tagHasIndex = (tag: string) => {
+export const tagHasIndex = async (tag: string) => {
   if (process.env.NODE_ENV === 'development') {
     // use metadata to handle the cross-checking
     // const metadata = await getParsedMetadata(tag)
@@ -74,8 +86,7 @@ export const tagHasIndex = (tag: string) => {
     return existsSync(resolve(_dirname, '../../../', `posts/${tag}/_index.mdx`))
   }
 
-  // return null
-  return existsSync(resolve(_dirname, '../../', `posts/${tag}/_index.mdx`))
+  return ((await getParsedMetadata(tag)) ?? {}).hasIndex
 }
 
 /**
@@ -118,7 +129,20 @@ export const getPostContent = async (tag: string, slug: string) => {
     return content
   }
 
-  return null
+  const promise = await s3.getObject({
+    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Key: `posts/${tag}/${
+      slug === '/' ? '_index' : `${metadata.paths[stripTrailingSlashes(slug)]}`
+    }.mdx`,
+  })
+
+  const content = await promise.Body?.transformToString()
+
+  if (!content) {
+    return null
+  }
+
+  return content
 }
 
 export const redirectToFirstPost = async (tag: string) => {
@@ -152,12 +176,12 @@ export const getVersions = async () => {
     )
   }
 
-  // Temporary fix for production
+  const promise = await s3.getObject({
+    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Key: 'posts/versions.json',
+  })
 
-  const content = await readFile(
-    resolve(_dirname, '../../', 'posts/versions.json'),
-    'utf-8'
-  )
+  const content = await promise.Body?.transformToString()
 
   if (!content) {
     return null
@@ -168,6 +192,7 @@ export const getVersions = async () => {
   )
 }
 
+// A better idea would be incorporating this into the metadata, but for now, this will do.
 export const getPreviousAndNextRoutes = async (
   tag: string,
   slug: string
