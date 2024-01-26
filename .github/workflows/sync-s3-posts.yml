@@ -19,9 +19,6 @@ jobs:
     - name: 📦 Install dependencies
       run: npm ci
 
-    - name: 🌳 Extract Repository Name
-      run: echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d '/' -f 2)" >> $GITHUB_ENV
-
     - name: ⚡ Generate docs metadata
       run: npm run generate:metadata
       env:
@@ -29,16 +26,15 @@ jobs:
         GITHUB_OWNER: ${{ github.repository_owner }}
         GITHUB_REPO: ${{ github.event.repository.name}}
 
-
     - name: 🏁 Check for changes
       id: git-check
       run: |
         if git diff HEAD^ HEAD -- posts/; then
           echo "No changes detected."
-          echo "::set-output name=changes::false"
+          echo "{changes}={false}" >> $GITHUB_OUTPUT
         else
           echo "Changes detected."
-          echo "::set-output name=changes::true"
+          echo "{changes}={true}" >> $GITHUB_OUTPUT
         fi
 
     - name: 🪣 Sync to S3
