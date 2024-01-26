@@ -66,7 +66,7 @@ export const getParsedMetadata = async (tag: string) => {
   }
 
   const promise = await s3.getObject({
-    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Bucket: process.env.AWS_S3_BUCKET || '',
     Key: `posts/${tag}/metadata.json`,
   })
 
@@ -130,7 +130,7 @@ export const getPostContent = async (tag: string, slug: string) => {
   }
 
   const promise = await s3.getObject({
-    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Bucket: process.env.AWS_S3_BUCKET || '',
     Key: `posts/${tag}/${
       slug === '/' ? '_index' : `${metadata.paths[stripTrailingSlashes(slug)]}`
     }.mdx`,
@@ -177,7 +177,7 @@ export const getVersions = async () => {
   }
 
   const promise = await s3.getObject({
-    Bucket: process.env.AWS_BUCKET_NAME || '',
+    Bucket: process.env.AWS_S3_BUCKET || '',
     Key: 'posts/versions.json',
   })
 
