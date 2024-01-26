@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main #  change to `docs` later
+      
+permissions: write-all
 
 jobs:
   wait-and-trigger:
@@ -28,7 +30,8 @@ jobs:
       - name: ⚡ Trigger main workflow
         if: steps.check-commits.outputs.abort != 'true'
         run: |
-          curl -X POST \
+          curl -L \
+            -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
