@@ -9,15 +9,9 @@ import 'dotenv/config'
 console.log('Generating metadata...')
 
 const __dirname =
-  process.env.NODE_ENV === 'production'
+  process.env.NODE_ENV === 'development'
     ? resolve()
     : process.env.GITHUB_WORKSPACE ?? ''
-
-// const octokit = request.defaults({
-//   headers: {
-//     authorization: `token ${process.env.GITHUB_TOKEN}`,
-//   },
-// })
 
 /**
  * The reserved name for the index file of every doc section
