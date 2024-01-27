@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div className="placeholder-index relative h-screen w-screen dark:bg-white sm:pb-16 sm:pt-8">
+    <div className="placeholder-index relative h-full min-h-screen w-screen dark:bg-white sm:pb-16 sm:pt-8">
       <div className="relative mx-auto max-w-[90rem] sm:px-6 lg:px-8">
         <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
           <section className="absolute inset-0">
@@ -143,7 +143,7 @@ export default function Index() {
           ))}
         </div>
       </div>
-      <section className="absolute bottom-2 mb-2 mt-2 w-full pb-3 text-center md:mb-0 md:mt-0">
+      <section className="absolute bottom-1 mb-2 w-full pb-1 pt-2 text-center sm:bottom-2 sm:pb-3 md:mb-0 md:mt-0">
         Crafted by ShafSpecs with ❤️ and Remix vibes 💿
       </section>
     </div>
