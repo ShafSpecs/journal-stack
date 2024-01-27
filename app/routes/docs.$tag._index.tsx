@@ -1,7 +1,7 @@
 import { json, redirect } from '@remix-run/node'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 
-import { Documentation } from '~/components/layout/remix-pwa/Documentation'
+import { Documentation } from '~/components/layout/Documentation'
 import {
   getFirstPost,
   getPostContent,

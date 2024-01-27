@@ -22,7 +22,7 @@ export default function Index() {
           <section className="absolute inset-0">
             <img
               className="h-full w-full object-cover"
-              src="/AI-Hero.png"
+              src="/AI-Hero.webp"
               alt="Rushing vibes of life"
             />
             <div className="absolute inset-0 bg-slate-950/75 mix-blend-multiply" />

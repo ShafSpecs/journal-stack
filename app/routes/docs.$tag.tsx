@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs } from '@remix-run/node'
 import type { ClientLoaderFunctionArgs } from '@remix-run/react'
 import { Outlet, useLoaderData, json as clientJson } from '@remix-run/react'
 
-import { RemixPWASidebar as Sidebar } from '~/components/layout/remix-pwa/Sidebar'
+import { Sidebar } from '~/components/layout/Sidebar'
 import { getParsedMetadata } from '~/utils/server/doc.server'
 import type { MetadataType } from '~/utils/server/doc.server'
 

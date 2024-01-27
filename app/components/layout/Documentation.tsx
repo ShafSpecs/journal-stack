@@ -8,11 +8,11 @@ import type { MouseEvent } from 'react'
 import { RemixPWAInfo as Info } from '~/components/plugins/Info'
 import { RemixPWAWarn as Warn } from '~/components/plugins/Warn'
 import SnippetGroup from '~/components/plugins/Snippet'
-import Editor from '~/components/plugins/editor'
+import Editor from '~/components/plugins/Editor'
 import Heading from '~/components/plugins/Heading'
 import { useTableOfContents } from '~/hooks/useTableOfContents'
 
-function RemixPWADocumentation({
+export function Documentation({
   route = 'routes/docs.$tag.$slug',
 }: {
   route?: string
@@ -228,5 +228,3 @@ function RemixPWADocumentation({
     </div>
   )
 }
-
-export { RemixPWADocumentation as Documentation }

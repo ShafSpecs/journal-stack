@@ -186,17 +186,17 @@ function DocList({ meta, tag }: { meta: MetadataMetaType; tag: string }) {
   )
 }
 
-type RemixPWASidebarProps = {
+type SidebarProps = {
   metadata: MetadataType
   children?: ReactNode
   layoutProps?: { allowOverflow?: boolean }
 }
 
-export function RemixPWASidebar({
+export function Sidebar({
   children,
   layoutProps: { allowOverflow = true } = {},
   metadata,
-}: RemixPWASidebarProps) {
+}: SidebarProps) {
   const location = useLocation()
 
   const [currentTag, setTag] = useState<string>(location.pathname.split('/')[2])

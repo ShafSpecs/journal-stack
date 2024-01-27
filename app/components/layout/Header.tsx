@@ -149,7 +149,7 @@ function MobileSidebar({
         >
           <div className="flex items-center justify-between">
             <Link to={'/'}>
-              <RatioIcon className="h-7 w-7" />
+              <RatioIcon className="h-7 w-7 dark:text-white" />
             </Link>
             <Disclosure.Button
               className="relative focus:outline-none focus:ring-0"
@@ -312,80 +312,83 @@ export default function Header({
                 >
                   <RatioIcon className="mr-2 h-7 w-7 self-center text-center md:hidden" />
                   <span className="sr-only">Journal Stack home page</span>
-                  <p className="font-space relative hidden text-4xl text-slate-700 dark:text-sky-100 md:flex">
+                  <p className="relative hidden font-space text-4xl text-slate-700 dark:text-sky-100 md:flex">
                     <span className="mr-2">Journal</span>
                     <span className="h-full bg-gradient-to-tr from-indigo-500 to-sky-300 bg-clip-text pr-1 text-transparent dark:from-indigo-400 dark:to-sky-200">
                       Stack
                     </span>
                   </p>
                 </Link>
-                <div className="relative ml-3 pt-1.5">
-                  <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                      <Menu.Button className="dark:highlight-white/5 flex items-center space-x-2 rounded-full bg-slate-400/10 px-3 py-1 text-sm font-semibold leading-5 text-slate-400 hover:bg-slate-400/20">
-                        {currentTag}
-                        <ChevronDownIcon
-                          className="ml-2 h-3 w-3 stroke-slate-400 stroke-2"
-                          aria-hidden="true"
-                        />
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="dark:highlight-white/5 absolute left-0 top-full mt-1 w-40 origin-top-left rounded-lg bg-white py-2 text-sm font-semibold leading-6 text-slate-700 shadow ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300">
-                        {versions.map((version: string) => (
-                          <Menu.Item
-                            key={version}
-                            disabled={currentTag === version}
-                          >
-                            {({ active }) => (
-                              // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                              <span
-                                className={clsx(
-                                  currentTag === version
-                                    ? 'flex items-center justify-between px-3 py-1 text-sky-500 dark:text-sky-400'
-                                    : 'block px-3 py-1',
-                                  active &&
-                                    currentTag !== version &&
-                                    'cursor-pointer bg-slate-50 text-slate-900 dark:bg-slate-600/30 dark:text-white'
-                                )}
-                                onClick={() => navigate(`/docs/${version}`)}
-                                role="button"
-                                tabIndex={0}
-                              >
-                                {version}
-                                {/* eslint-disable-next-line multiline-ternary */}
-                                {currentTag === version ? (
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    fill="none"
-                                    aria-hidden="true"
-                                  >
-                                    <path
-                                      d="m7.75 12.75 2.25 2.5 6.25-6.5"
-                                      stroke="currentColor"
-                                      strokeWidth="2"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
-                                ) : null}
-                              </span>
-                            )}
-                          </Menu.Item>
-                        ))}
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
+                {/* eslint-disable-next-line multiline-ternary */}
+                {versions.length > 1 ? (
+                  <div className="relative ml-3 pt-1.5">
+                    <Menu as="div" className="relative inline-block text-left">
+                      <div>
+                        <Menu.Button className="dark:highlight-white/5 flex items-center space-x-2 rounded-full bg-slate-400/10 px-3 py-1 text-sm font-semibold leading-5 text-slate-400 hover:bg-slate-400/20">
+                          {currentTag}
+                          <ChevronDownIcon
+                            className="ml-2 h-3 w-3 stroke-slate-400 stroke-2"
+                            aria-hidden="true"
+                          />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="dark:highlight-white/5 absolute left-0 top-full mt-1 w-40 origin-top-left rounded-lg bg-white py-2 text-sm font-semibold leading-6 text-slate-700 shadow ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300">
+                          {versions.map((version: string) => (
+                            <Menu.Item
+                              key={version}
+                              disabled={currentTag === version}
+                            >
+                              {({ active }) => (
+                                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                                <span
+                                  className={clsx(
+                                    currentTag === version
+                                      ? 'flex items-center justify-between px-3 py-1 text-sky-500 dark:text-sky-400'
+                                      : 'block px-3 py-1',
+                                    active &&
+                                      currentTag !== version &&
+                                      'cursor-pointer bg-slate-50 text-slate-900 dark:bg-slate-600/30 dark:text-white'
+                                  )}
+                                  onClick={() => navigate(`/docs/${version}`)}
+                                  role="button"
+                                  tabIndex={0}
+                                >
+                                  {version}
+                                  {/* eslint-disable-next-line multiline-ternary */}
+                                  {currentTag === version ? (
+                                    <svg
+                                      width="24"
+                                      height="24"
+                                      fill="none"
+                                      aria-hidden="true"
+                                    >
+                                      <path
+                                        d="m7.75 12.75 2.25 2.5 6.25-6.5"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
+                                  ) : null}
+                                </span>
+                              )}
+                            </Menu.Item>
+                          ))}
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </div>
+                ) : null}
                 <div className="relative flex flex-grow basis-0 justify-end gap-6 sm:gap-8">
                   <div className="relative flex basis-0 content-center justify-end gap-6 sm:gap-6 md:flex-grow">
                     <button type="button" className="flex h-6 w-6 lg:hidden">
