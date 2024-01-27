@@ -1,6 +1,6 @@
 # Journal Stack
 
-Welcome to Journal Stack! A documentation stack for scaffolding your doc writing experience!
+Welcome to Journal Stack! A documentation stack for scaffolding your doc writing experience with multi-version support!
 
 ## Getting Started
 
@@ -26,6 +26,15 @@ A few things I might need help with:
 - **Themes**: I'm looking for more themes to add to the stack. If you have a site theme you'd like to add, please open an issue and let me know!
 - **Testing**: More test use-cases. Currently, they cover the barest minimum and not enough to test anything realistically. Contributions in this regard would very much be appreciated.
 - **Critical Feedback**: Most important one 😄, critical feedback. Could range from code colocation, to my apprach to fetching and caching, to the documentation itself. I'm open to all feedback. Thank you!
+
+### Contributing Opportunities
+
+If you are unsure of where to start, here are a few stuffs that would be nice to have:
+
+- **Improved Typing**: The typing for the app is quite good, however there are a few `any` types sprinkled here and there that could be improved upon.
+- **More mock docs**: More docs can't hurt, right? 😄
+- **Improved Documentation**: I don't mean the code itself, I mean this docs you are reading right now. It could be more explanatory, more detailed, more concise, etc. Any improvement would be appreciated. Even typos!
+- **Github Actions**: Currently, only github actions regarding syncing the docs to their respective repositories are available. It would be nice to have more actions, such as testing, linting, and expecially deployments. 
 
 ## License
 
