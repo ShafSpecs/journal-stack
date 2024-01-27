@@ -55,6 +55,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.0",
     "@playwright/test": "^1.41.1",
     "@remix-pwa/dev": "^2.1.0-dev.6",
     "@remix-run/dev": "^2.5.0",
