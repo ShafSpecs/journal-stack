@@ -74,6 +74,7 @@ There are only two fields available for section frontmatter:
 In case you are getting confused, our `posts` file tree resembles the following:
 ```
 posts
+├── versions.json       # This is the versions file
 ├── 1.0.0
 │   ├── _index.mdx      # Optional. This is the index file for this version
 │   ├── getting-started # This is a section folder
@@ -109,7 +110,7 @@ one after the other. If it isn't available, the posts would be ordered alphabeti
 > You can decide to use `order` for some posts and not for others. However, if you decide to use `order` for some posts, you must use it for all posts within that section. If you don't, the posts without `order` would be placed at the bottom of the section.
 - `description` (optional): The description of the post.
 - `toc` (optional): This is a boolean value that determines whether a table of contents should be generated for this post. If it isn't available, a table of contents would be generated for the post.
-- `hidden` (optional): This is a boolean value that determines whether the post should be hidden from the sidebar. **Make sure to set within `_index.mdx` files!**
+- `hidden` (optional): This is a boolean value that determines whether the post should be hidden from the sidebar. **Make sure to set to `true` within the `_index.mdx` file!**
 
 #### Remix PWA Compoents
 

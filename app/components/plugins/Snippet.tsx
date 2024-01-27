@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Tab } from '@headlessui/react'
 
 // @ts-ignore
-import { Frame, CopyButton } from './editor.tsx'
+import { Frame, CopyButton } from './Editor.tsx'
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')

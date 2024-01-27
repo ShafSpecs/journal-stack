@@ -44,7 +44,7 @@ export async function mdxToHtml(source: string) {
   // inject Heading into the doc just below the frontmatter
   const injectHeading = (source: string) => {
     const frontMatterEnd = source.indexOf('---', 10) + 3
-    return `${source.slice(0, frontMatterEnd)}\n\nimport Heading from './heading.tsx'\nimport Editor from './editor.tsx'${source.slice(
+    return `${source.slice(0, frontMatterEnd)}\n\nimport Heading from './heading.tsx'\nimport Editor from './Editor.tsx'${source.slice(
       frontMatterEnd
     )}`
   }
@@ -68,7 +68,7 @@ export async function mdxToHtml(source: string) {
         './details.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Details.tsx')
         ).toString(),
-        './editor.tsx': readFileSync(
+        './Editor.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Editor.tsx')
         ).toString(),
         './snippet.tsx': readFileSync(
