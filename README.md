@@ -1,53 +1,32 @@
-# Welcome to Remix + Vite!
+# Journal Stack
 
-📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
+Welcome to Journal Stack! A documentation stack for scaffolding your doc writing experience!
 
-## Development
+## Getting Started
 
-Run the Vite dev server:
+Journal Stack is built around a theme concept: the same documentation but implemented with various themes and repositories. This allows you to choose the theme that best suits your needs as well
+as repository (SQL database, CMS, S3 Bucket, etc.) and get started writing documentation right away!
 
-```shellscript
-npm run dev
-```
+Currently, there is only one theme available:
 
-## Deployment
+- **[Remix PWA Theme]()**: This theme is build to replicate [Remix PWA Documentation](https://remix-pwa.run), it also includes the tools used by the docs to store its content. To get started, head over to the [`remix-pwa`]() branch to get started with this theme.
 
-First, build your app for production:
+*More themes coming soon!*
 
-```sh
-npm run build
-```
+## Documentation
 
-Then run the app in production mode:
+Each theme branch features its own documentation under the `docs` folder. Use this to explore a particular theme and how to expand upon it, I am still in the process of improving the theme and docs overall so feel free to open an issue if you have any questions or suggestions.
 
-```sh
-npm start
-```
+## Contributing
 
-Now you'll need to pick a host to deploy it to.
+Journal Stack is an open source project and contributions are welcome! Check out the [Contributing Guide](./CONTRIBUTING.md) to get started.
 
-### DIY
+A few things I might need help with:
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+- **Themes**: I'm looking for more themes to add to the stack. If you have a site theme you'd like to add, please open an issue and let me know!
+- **Testing**: More test use-cases. Currently, they cover the barest minimum and not enough to test anything realistically. Contributions in this regard would very much be appreciated.
+- **Critical Feedback**: Most important one 😄, critical feedback. Could range from code colocation, to my apprach to fetching and caching, to the documentation itself. I'm open to all feedback. Thank you!
 
-Make sure to deploy the output of `npm run build`
+## License
 
-- `build/server`
-- `build/client`
-
-## Contributors 😍
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+Journal Stack is licensed under the [MIT License](./LICENSE.md).
