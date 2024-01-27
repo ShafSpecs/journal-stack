@@ -3,7 +3,7 @@ name: ⏰ Delayed Trigger
 on:
   push:
     branches:
-      - main #  change to `docs` later
+      - remix-pwa  # change to `docs`
       
 permissions: write-all
 
