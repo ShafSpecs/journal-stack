@@ -7,3 +7,5 @@ node_modules
 ./test-results
 ./coverage
 ./playwright-report/**
+
+./public/entry.worker.js
