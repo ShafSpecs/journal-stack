@@ -1,7 +1,8 @@
 import { json } from '@remix-run/node'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import type { ClientLoaderFunctionArgs } from '@remix-run/react'
-import { Outlet, useLoaderData, json as clientJson } from '@remix-run/react'
+import { Outlet } from '@remix-run/react'
+import { cacheClientLoader, useCachedLoaderData } from 'remix-client-cache'
 
 import { Sidebar } from '~/components/layout/Sidebar'
 import { getParsedMetadata } from '~/utils/server/doc.server'
@@ -25,32 +26,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   })
 }
 
-export const clientLoader = async ({
-  params,
-  serverLoader,
-}: ClientLoaderFunctionArgs) => {
-  const localMetadata = window.sessionStorage.getItem(`metadata-${params.tag}`)
-
-  if (localMetadata) {
-    return clientJson({
-      metadata: JSON.parse(localMetadata),
-    })
-  }
-
-  const { metadata } = (await serverLoader()) as unknown as any
-  window.sessionStorage.setItem(
-    `metadata-${params.tag}`,
-    JSON.stringify(metadata)
-  )
-
-  return clientJson({
-    metadata,
-    tag: params.tag,
-  })
-}
+export const clientLoader = async (args: ClientLoaderFunctionArgs) =>
+  cacheClientLoader(args)
 
 export default function TagRoute() {
-  const { metadata } = useLoaderData<{
+  const { metadata } = useCachedLoaderData<{
     metadata: MetadataType
   }>()
 

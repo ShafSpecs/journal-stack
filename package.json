@@ -49,6 +49,7 @@
     "rehype-slug": "^6.0.0",
     "remark-emoji": "^4.0.1",
     "remark-gfm": "^4.0.0",
+    "remix-client-cache": "^1.0.1",
     "remix-utils": "^7.5.0",
     "unist-util-filter": "^5.0.1",
     "valtio": "^1.13.0",
