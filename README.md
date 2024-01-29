@@ -2,6 +2,8 @@
 
 Welcome to Journal Stack! A documentation stack for scaffolding your doc writing experience with multi-version support!
 
+![Journal Stack](./images/journal-stack.jpeg)
+
 ## Getting Started
 
 Journal Stack is built around a theme concept: the same documentation but implemented with various themes and repositories. This allows you to choose the theme that best suits your needs as well
