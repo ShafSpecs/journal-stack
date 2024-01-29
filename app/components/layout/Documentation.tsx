@@ -118,8 +118,7 @@ export function Documentation({
                 <Link
                   className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
                   to={`/docs/${tag}/${prev.slug}`}
-                  // reloadDocument={true}
-                  // prefetch="intent"
+                  prefetch="intent"
                 >
                   <span aria-hidden="true">←</span>&nbsp;
                   {prev.alternateTitle ?? prev.title}
@@ -136,8 +135,7 @@ export function Documentation({
                 <Link
                   className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
                   to={`/docs/${tag}/${next.slug}`}
-                  // reloadDocument={true}
-                  // prefetch="intent"
+                  prefetch="intent"
                 >
                   {next.alternateTitle ?? next.title}
                   {/* */}&nbsp;<span aria-hidden="true">→</span>
