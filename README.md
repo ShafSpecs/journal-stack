@@ -2,7 +2,7 @@
 
 Welcome to Journal Stack! A documentation stack for scaffolding your doc writing experience with multi-version support!
 
-![Journal Stack](./images/journal-stack.jpeg)
+![Journal Stack](https://ucarecdn.com/9a7c0b39-42f7-49f8-bcdf-d308871cdf58/WhatsAppImage20240125at110815PM.jpeg)
 
 ## Getting Started
 
