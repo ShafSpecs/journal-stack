@@ -2,45 +2,18 @@ import { readFileSync } from 'fs'
 import { bundleMDX } from 'mdx-bundler'
 import { join } from 'path'
 import { cwd } from 'process'
+import emoji from 'remark-emoji'
+import gfm from 'remark-gfm'
+import slug from 'rehype-slug'
 
 import type { FrontMatterType } from '~/types/mdx'
 
-import {
-  importToC,
-  importRole,
-  importCheckbox,
-  importHighlighter,
-  importGfm,
-  importSlug,
-  importEmoji,
-} from '../../exports/esm-module'
+import role from '../../rehype/role'
+import checkbox from '../../rehype/checkbox'
+import toc from '../../remark/toc'
+import highlight from '../../remark/highlight'
 
 export async function mdxToHtml(source: string) {
-  const { default: gfm } = await importGfm()
-  const { default: emoji } = await importEmoji()
-  const { default: slug } = await importSlug()
-  const { default: highlight } = await importHighlighter()
-  const { default: role } = await importRole()
-  const { default: checkbox } = await importCheckbox()
-  const { default: toc } = await importToC()
-
-  if (process.platform === 'win32') {
-    process.env.ESBUILD_BINARY_PATH = join(
-      cwd(),
-      'node_modules',
-      'esbuild',
-      'esbuild.exe'
-    )
-  } else {
-    process.env.ESBUILD_BINARY_PATH = join(
-      cwd(),
-      'node_modules',
-      'esbuild',
-      'bin',
-      'esbuild'
-    )
-  }
-
   // inject Heading into the doc just below the frontmatter
   const injectHeading = (source: string) => {
     const frontMatterEnd = source.indexOf('---', 10) + 3

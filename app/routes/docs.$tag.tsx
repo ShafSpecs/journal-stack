@@ -29,6 +29,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 export const clientLoader = async (args: ClientLoaderFunctionArgs) =>
   cacheClientLoader(args)
 
+clientLoader.hydrate = true
+
 export default function TagRoute() {
   const { metadata } = useCachedLoaderData<{
     metadata: MetadataType

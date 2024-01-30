@@ -7,7 +7,6 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import { json } from '@remix-run/node'
-import { useSWEffect } from '@remix-pwa/sw'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 
 import { ClientHints, getHints } from './components/ClientHint'
@@ -38,7 +37,6 @@ function App() {
 }
 
 export default function Document() {
-  useSWEffect()
   const theme = useTheme()
 
   return (
