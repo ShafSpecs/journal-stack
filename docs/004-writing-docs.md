@@ -116,7 +116,7 @@ one after the other. If it isn't available, the posts would be ordered alphabeti
 
 The Remix PWA ships with quite a lot of plugins and components that you can use to enhance your docs. 
 
-> WiP Section
+Checkout out: https://journal-stack.fly.dev/docs/main/examples
 
 ## Syncing your docs
 
