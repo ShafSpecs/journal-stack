@@ -32,9 +32,6 @@ export async function mdxToHtml(source: string) {
         './warn.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Warn.tsx')
         ).toString(),
-        // './tip.tsx': readFileSync(
-        //   join(cwd(), 'app', 'components/plugins/Tip.tsx')
-        // ).toString(),
         './heading.tsx': readFileSync(
           join(cwd(), 'app', 'components/plugins/Heading.tsx')
         ).toString(),
