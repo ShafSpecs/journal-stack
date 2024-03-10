@@ -144,6 +144,7 @@ tags.forEach(async tag => {
         owner: process.env.GITHUB_OWNER ?? '',
         repo: process.env.GITHUB_REPO ?? '',
         path: `posts/${tag}/metadata.json`,
+        ref: 'main',
       }
     )
 
@@ -164,6 +165,7 @@ tags.forEach(async tag => {
       repo: process.env.GITHUB_REPO ?? '',
       path: `posts/${tag}/metadata.json`,
       message: '📃 Update metadata.json',
+      ref: 'main',
       content: Buffer.from(JSON.stringify(metadataObject, null, 2)).toString(
         'base64'
       ),
