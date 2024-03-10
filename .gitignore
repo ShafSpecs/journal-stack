@@ -8,4 +8,4 @@ node_modules
 ./coverage
 ./playwright-report/**
 
-./public/entry.worker.js
+public/entry.worker.js
