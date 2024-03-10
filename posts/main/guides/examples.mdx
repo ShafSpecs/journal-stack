@@ -1,5 +1,5 @@
 ---
-title: "Remix PWA Theme Documentation Components"
+title: "Documentation Components"
 alternateTitle: "Components"
 description: "List of available components to the Remix PWA Journal Stack theme."
 ---
@@ -7,6 +7,7 @@ description: "List of available components to the Remix PWA Journal Stack theme.
 import Warn from './warn.tsx'
 import Info from './info.tsx'
 import Details from './details.tsx'
+import Snippet from './snippet.tsx'
 
 Alright, let's actually get started with this. Remix PWA contains various components, plugins and utilities that allow the writing process to be easier whilst still maintaining the ability to customize the theme to your liking.
 
@@ -79,7 +80,7 @@ It takes a children prop and a `title` prop that serves as the `<summary>` eleme
 import Details from './details.tsx'
 
 # In your MDX file
-<Details title="This is a details">
+<Details title="This is some details">
   This is a details
 
   Like `Warn`, you can use [MDX](https://mdxjs.com) in here **too**.
@@ -88,7 +89,7 @@ import Details from './details.tsx'
 
 In practice, it gets rendered like this:
 
-<Details title="This is a details">
+<Details title="This is some details">
   This is a details
 
   Like `Warn`, you can use [MDX](https://mdxjs.com) in here **too**.
@@ -172,6 +173,62 @@ const a = 1
 
 ### `<Snippet>`
 
-This is where all the fun begins...
+This components allows you to render code snippets within a file system context. Imagine you are writing some documentation on how to
+set up the next big thing, but you need to edit three files to make it work. Default approach would be to utilise three code blocks
+one after the other and add a mini-comment on top of each code black stating where that snippet goes.
 
-> Still a WiP post
+With the `Snippet` component, it's easy to write multiple, related snippets at once without breaking a line (or a sweat!)
+
+To utilise it, import the `Snippet` component from `./snippet.tsx` and then wrap multiple codeblocks with the component.
+
+> In case you haven't noticed yet, all components are imported from `./component-name-in-lowercase.tsx`
+
+Each 'file' (code snippet) within the `Snippet` component takes a `filename` prop, which is the name to display. For example, this:
+
+```md
+# At the top of your file
+import Snippet from './snippet.tsx'
+
+# Don't forget to use three backticks (`)!
+
+<Snippet>
+
+``tsx {{ filename:'file-one.ts' }}
+console.log('This is one file!')
+
+export const a = 'First Snippet'
+``
+
+``tsx {{ filename:'file-two.ts' }}
+console.log('This is a second file (code snippet)')
+
+export const b = 'Second Snippet'
+``
+
+</Snippet>
+```
+
+is rendered as this:
+
+<Snippet>
+
+```tsx {{ filename:'file-one.ts' }}
+console.log('This is one file!')
+
+export const a = 'First Snippet'
+```
+
+```tsx {{ filename:'file-two.ts' }}
+console.log('This is a second file (code snippet)')
+
+export const b = 'Second Snippet'
+```
+
+</Snippet>
+
+---
+
+So there you have it! All custom components currently being shipped with Journal Stack. I would be looking to add more in the future and updating this list.
+
+If you have a question, custom component to share or feedback, feel free to [open an issue](https://github.com/ShafSpecs/journal-stack/issues) or a
+[pull request](https://github.com/ShafSpecs/journal-stack/pulls) on the [GitHub repository](https://github.com/ShafSpecs/journal-stack) 😊.
