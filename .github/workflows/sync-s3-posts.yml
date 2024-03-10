@@ -10,6 +10,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: main
+        fetch-depth: 0
 
     - name: 🛡️ Setup Node.js
       uses: actions/setup-node@v4
@@ -29,16 +32,16 @@ jobs:
     - name: 🏁 Check for changes
       id: git-check
       run: |
-        if git diff HEAD^ HEAD -- posts/; then
+        if [ -z "$(git diff HEAD^ HEAD -- posts/)" ]; then
           echo "No changes detected."
-          echo "{changes}={false}" >> $GITHUB_OUTPUT
+          echo "changes=false" >> "$GITHUB_ENV"
         else
           echo "Changes detected."
-          echo "{changes}={true}" >> $GITHUB_OUTPUT
+          echo "changes=true" >> "$GITHUB_ENV"
         fi
 
     - name: 🪣 Sync to S3
-      if: steps.git-check.outputs.changes == 'true'
+      if: env.changes == 'true'
       uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete
