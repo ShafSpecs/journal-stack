@@ -64,6 +64,13 @@
   @apply block;
 }
 
+.token.prefix.inserted {
+  @apply hidden;
+}
+.token.prefix.deleted {
+  @apply hidden;
+}
+
 .token.deleted,
 .token.inserted {
   @apply relative block pl-8 pr-5 border-l-4 -mx-9 before:absolute before:top-0 before:left-4;
