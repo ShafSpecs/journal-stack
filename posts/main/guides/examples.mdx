@@ -1,23 +1,177 @@
 ---
-title: "Real-World Examples"
-alternateTitle: "Case Studies"
-description: "Examples of how our product has been used in various scenarios."
+title: "Remix PWA Theme Documentation Components"
+alternateTitle: "Components"
+description: "List of available components to the Remix PWA Journal Stack theme."
 ---
 
-In this section, you'll find various case studies and examples of how our product has been effectively used.
+import Warn from './warn.tsx'
+import Info from './info.tsx'
+import Details from './details.tsx'
 
-## Example 1
+Alright, let's actually get started with this. Remix PWA contains various components, plugins and utilities that allow the writing process to be easier whilst still maintaining the ability to customize the theme to your liking.
 
-Description and results of Example 1.
+## Components
 
-## Example 2
+### Rules
 
-A detailed case study of Example 2.
+First thing first, before listing out the components available, I would like to add a quick disclaimer:
 
-## User Feedback
+> There are two components we would be coming across that are never to imported explicitly. You can use them just fine as they're exported implictly. That's `<Heading>` and `<Editor>`.
 
-Testimonials and feedback from users who have implemented these examples.
+That's it. Now let's get started.
 
-## Additional Resources
+### `<Warn>`
 
-Links to more resources, tutorials, and community discussions.
+Warn is a simple dialog for warning. It has to be imported explicitly to use it. 
+
+It takes a children prop which you can wrap your content with.
+
+```md
+# At the top of your file
+import Warn from './warn.tsx'
+
+# In your MDX file
+<Warn>
+  This is a warning
+</Warn>
+```
+
+In practice, it gets rendered like this:
+
+<Warn>
+  This is a warning
+</Warn>
+
+### `<Info>`
+
+This is similar to warn, but with less emphasis. It's used to display information. It has to be imported explicitly to use it.
+
+It also takes a children prop which you can wrap your content with.
+
+```md
+# At the top of your file
+import Info from './info.tsx'
+
+# In your MDX file
+<Info>
+  This is an information
+
+  Like `Warn`, you can use [MDX](https://mdxjs.com) in here **too**.
+</Info>
+```
+
+In practice, it gets rendered like this:
+
+<Info>
+  This is an information
+
+  Like `Warn`, you can use [MDX](https://mdxjs.com) in here **too**.
+</Info>
+
+### `<Details>`
+
+This is a normal, but styled `<details>` element. It has to be imported explicitly to use it.
+
+It takes a children prop and a `title` prop that serves as the `<summary>` element.
+
+```md
+# At the top of your file
+import Details from './details.tsx'
+
+# In your MDX file
+<Details title="This is a details">
+  This is a details
+
+  Like `Warn`, you can use [MDX](https://mdxjs.com) in here **too**.
+</Details>
+```
+
+In practice, it gets rendered like this:
+
+<Details title="This is a details">
+  This is a details
+
+  Like `Warn`, you can use [MDX](https://mdxjs.com) in here **too**.
+</Details>
+
+### `<Heading>`
+
+Now this one is interesting, firstly, it is imported implictly. Secondly, you don't need to use it outright as markdown headings (`#`, `##`, `###`, etc) are automatically converted to `<Heading>`
+that have levels, detect their next sibling/child and more. Thanks to tailwindcss for the concept in their docs!
+
+<Warn>
+On that note, one thing to note is that you shouldn't use `#` within your docs. `##` are the main sections, `###` are the mini-subsections, and `####` are sections that you need to separate but don't
+deem important to appear in your markup table of contents.
+</Warn>
+
+To use it, simply utilise markdown headings.
+
+```md
+## This is a heading
+
+### This is a subheading
+
+#### This is a sub-subheading that won't show up in the table of contents
+```
+
+### `<Editor>`
+
+This is a second anomaly. This component is imported implicitly, and it's used to render code blocks. Using remark plugins, all code blocks are automatically rendered with this component.
+
+```md
+``tsx (use three backticks)
+import React from 'react'
+
+const Component = () => {
+  return (
+    <div>
+      Hello World
+    </div>
+  )
+}
+``
+```
+
+This is how it looks like:
+
+```tsx
+import React from 'react'
+
+const Component = () => {
+  return (
+    <div>
+      Hello World
+    </div>
+  )
+}
+```
+
+#### Showing code diffs
+
+> In case you haven't noticed 👀, this section uses `h4` headings, that means they are headings that would render like `<Heading>` but not show up in the Table of Contents (ToC).
+
+You can also show code diffs by using the `diff-{language}` language.
+
+```md
+``diff-js (use three backticks)
+const a = 1
+
+- const b = 2
++ const b = 3
+``
+```
+
+This is how it looks like:
+
+```diff-js
+const a = 1
+
+- const b = 2
++ const b = 3
+```
+
+### `<Snippet>`
+
+This is where all the fun begins...
+
+> Still a WiP post

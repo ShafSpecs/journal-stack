@@ -26,9 +26,9 @@
       "spacer": true
     },
     "examples": {
-      "title": "Real-World Examples",
-      "alternateTitle": "Case Studies",
-      "description": "Examples of how our product has been used in various scenarios.",
+      "title": "Remix PWA Theme Documentation Components",
+      "alternateTitle": "Components",
+      "description": "List of available components to the Remix PWA Journal Stack theme.",
       "section": "Guides",
       "slug": "examples"
     }
