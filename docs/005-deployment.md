@@ -40,6 +40,7 @@ You also want to set workflow permissions to read and write in your actions sett
 ## Deploy to Fly
 
 Unfortunately, at the moment, there is no workflow for deployment to Fly. However, you can easily deploy to Fly by running the following command:
+
 ```bash
 fly deploy --remote-only
 ```
