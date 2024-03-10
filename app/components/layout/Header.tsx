@@ -11,7 +11,7 @@ import { ChevronDownIcon, RatioIcon, SearchIcon, XIcon } from 'lucide-react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { useTransition, animated } from 'react-spring'
 
-import { RemixPWAThemeSwitcher as ThemeSwitcher } from '~/components/ThemeSwitcher'
+import { ThemeSwitcher } from '~/components/ThemeSwitcher'
 import { useOnClickOutside } from '~/hooks/useOnClickOutside'
 import type { MetadataType } from '~/utils/server/doc.server'
 import { DEFAULT_TAG } from '~/utils/defatult'

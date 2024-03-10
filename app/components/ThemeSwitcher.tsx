@@ -3,7 +3,7 @@ import { MoonIcon, SunIcon } from 'lucide-react'
 
 import { useTheme } from '~/hooks/useTheme'
 
-export const RemixPWAThemeSwitcher = () => {
+export const ThemeSwitcher = () => {
   const fetcher = useFetcher()
   const theme = useTheme()
 

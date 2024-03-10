@@ -5,8 +5,8 @@ import clsx from 'clsx'
 import redent from 'redent'
 import type { MouseEvent } from 'react'
 
-import { RemixPWAInfo as Info } from '~/components/plugins/Info'
-import { RemixPWAWarn as Warn } from '~/components/plugins/Warn'
+import Info from '~/components/plugins/Info'
+import Warn from '~/components/plugins/Warn'
 import SnippetGroup from '~/components/plugins/Snippet'
 import Editor from '~/components/plugins/Editor'
 import Heading from '~/components/plugins/Heading'
@@ -82,7 +82,7 @@ export function Documentation({
         frontmatter.toc ? 'xl:ml-0 xl:mr-[15.5rem] xl:pr-16' : ''
       )}
     >
-      <div className="mb-8 flex-auto scroll-smooth">
+      <div className="flex-auto mb-8 scroll-smooth">
         <article>
           <header id="header" className="relative z-20">
             <div>
@@ -108,10 +108,10 @@ export function Documentation({
             <Component />
           </main>
         </article>
-        <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
+        <dl className="flex pt-6 mt-12 border-t border-slate-200 dark:border-slate-800">
           {prev && (
             <div>
-              <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+              <dt className="text-sm font-medium font-display text-slate-900 dark:text-white">
                 Previous
               </dt>
               <dd className="mt-1">
@@ -128,7 +128,7 @@ export function Documentation({
           )}
           {next && (
             <div className="ml-auto text-right">
-              <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+              <dt className="text-sm font-medium font-display text-slate-900 dark:text-white">
                 Next
               </dt>
               <dd className="mt-1">
@@ -145,7 +145,7 @@ export function Documentation({
           )}
         </dl>
         {/* Hack to get some space at the bottom of the page */}
-        <div className="h-12 w-full bg-transparent" />
+        <div className="w-full h-12 bg-transparent" />
       </div>
       {/* eslint-disable-next-line multiline-ternary */}
       {frontmatter.toc ? (
