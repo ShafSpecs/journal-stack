@@ -6,12 +6,13 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import { json } from '@remix-run/node'
+import { useSWEffect } from '@remix-pwa/sw'
 import type { LoaderFunctionArgs } from '@remix-run/node'
 
 import { ClientHints, getHints } from './components/ClientHint'
 import { useTheme } from './hooks/useTheme'
-import { getTheme } from './utils/server/theme.server'
-import { getVersions } from './utils/server/doc.server'
+import { getTheme } from './.server/theme'
+import { getVersions } from './.server/doc'
 
 import './styles/code.css'
 import './styles/documentation.css'
@@ -36,6 +37,7 @@ function App() {
 }
 
 export default function Document() {
+  useSWEffect()
   const theme = useTheme()
 
   return (
