@@ -5,8 +5,8 @@ import { Outlet } from '@remix-run/react'
 import { cacheClientLoader, useCachedLoaderData } from 'remix-client-cache'
 
 import { Sidebar } from '~/components/layout/Sidebar'
-import { getParsedMetadata } from '~/utils/server/doc.server'
-import type { MetadataType } from '~/utils/server/doc.server'
+import { getParsedMetadata } from '~/.server/doc'
+import type { MetadataType } from '~/.server/doc'
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   let metadata: MetadataType = {

@@ -1,11 +1,8 @@
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 
 import { Documentation } from '~/components/layout/Documentation'
-import {
-  getPostContent,
-  getPreviousAndNextRoutes,
-} from '~/utils/server/doc.server'
-import { mdxToHtml } from '~/utils/server/mdx.server'
+import { getPostContent, getPreviousAndNextRoutes } from '~/.server/doc'
+import { mdxToHtml } from '~/.server/mdx'
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const tag = params.tag ?? 'main'

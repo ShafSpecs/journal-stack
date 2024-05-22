@@ -8,10 +8,10 @@ import slug from 'rehype-slug'
 
 import type { FrontMatterType } from '~/types/mdx'
 
-import role from '../../rehype/role'
-import checkbox from '../../rehype/checkbox'
-import toc from '../../remark/toc'
-import highlight from '../../remark/highlight'
+import role from '../rehype/role'
+import checkbox from '../rehype/checkbox'
+import toc from '../remark/toc'
+import highlight from '../remark/highlight'
 
 export async function mdxToHtml(source: string) {
   // inject Heading into the doc just below the frontmatter

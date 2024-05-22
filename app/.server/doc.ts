@@ -54,7 +54,7 @@ const stripTrailingSlashes = (str: string): string => {
 export const getParsedMetadata = async (tag: string) => {
   if (process.env.NODE_ENV === 'development') {
     const content = await readFile(
-      resolve(_dirname, '../../../', `posts/${tag}/metadata.json`),
+      resolve(_dirname, '../../', `posts/${tag}/metadata.json`),
       'utf-8'
     )
 
@@ -83,7 +83,7 @@ export const tagHasIndex = async (tag: string) => {
     // const metadata = await getParsedMetadata(tag)
     // return metadata?.hasIndex
     // or
-    return existsSync(resolve(_dirname, '../../../', `posts/${tag}/_index.mdx`))
+    return existsSync(resolve(_dirname, '../../', `posts/${tag}/_index.mdx`))
   }
 
   return ((await getParsedMetadata(tag)) ?? {}).hasIndex
@@ -112,7 +112,7 @@ export const getPostContent = async (tag: string, slug: string) => {
     const content = await readFile(
       resolve(
         _dirname,
-        '../../../',
+        '../../',
         `posts/${tag}/${
           slug === '/'
             ? '_index'
@@ -163,7 +163,7 @@ export const getFirstPost = async (tag: string) => {
 export const getVersions = async () => {
   if (process.env.NODE_ENV === 'development') {
     const content = await readFile(
-      resolve(_dirname, '../../../', 'posts/versions.json'),
+      resolve(_dirname, '../../', 'posts/versions.json'),
       'utf-8'
     )
 

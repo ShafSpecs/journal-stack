@@ -1,7 +1,7 @@
 import { json, type ActionFunctionArgs, redirect } from '@remix-run/node'
 
 import { ThemeFormSchema } from '~/hooks/useTheme'
-import { setTheme } from '~/utils/server/theme.server'
+import { setTheme } from '~/.server/theme'
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = Object.fromEntries(await request.formData())

@@ -7,8 +7,8 @@ import {
   getPostContent,
   redirectToFirstPost,
   tagHasIndex,
-} from '~/utils/server/doc.server'
-import { mdxToHtml } from '~/utils/server/mdx.server'
+} from '~/.server/doc'
+import { mdxToHtml } from '~/.server/mdx'
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const tag = params.tag ?? 'main'

@@ -5,9 +5,9 @@ import clsx from 'clsx'
 
 import { useIsomorphicLayoutEffect } from '~/hooks/useIsomorphicLayoutEffect'
 import { useActionKey } from '~/hooks/useActionKey'
-import { nearestScrollableContainer } from '~/utils/client/nearest-scrollable-container'
+import { nearestScrollableContainer } from '~/.client/nearest-scrollable-container'
 import { useMediaQuery } from '~/hooks/useMediaQuery'
-import type { MetadataMetaType, MetadataType } from '~/utils/server/doc.server'
+import type { MetadataMetaType, MetadataType } from '~/.server/doc'
 import { DEFAULT_TAG } from '~/utils/defatult'
 
 import Header from './Header'
