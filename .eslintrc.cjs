@@ -29,6 +29,7 @@ module.exports = {
       },
     ],
     'multiline-tenary': 'off',
+    'no-undef': 'off',
     'import/order': [
       'error',
       {
