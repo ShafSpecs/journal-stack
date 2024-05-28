@@ -3,13 +3,17 @@ const path = require('path')
 const toml = require('@iarna/toml')
 const sort = require('sort-package-json')
 
+const escapeRegExp = string =>
+  // $& means the whole matched string
+  string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
 async function main({ rootDirectory }) {
   const FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
   const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example')
   const ENV_PATH = path.join(rootDirectory, '.env')
   const PACKAGE_JSON_PATH = path.join(rootDirectory, 'package.json')
 
-  const REPLACER = 'journal-stack'
+  const REPLACER = escapeRegExp('journal-stack')
 
   const DIR_NAME = path.basename(rootDirectory)
 
@@ -22,7 +26,7 @@ async function main({ rootDirectory }) {
   ])
 
   const prodToml = toml.parse(prodContent)
-  prodToml.app = prodToml.app.replace(REPLACER, APP_NAME)
+  prodToml.app = prodToml.app.replace(new RegExp(REPLACER, 'g'), APP_NAME)
 
   const newPackageJson =
     JSON.stringify(
@@ -35,6 +39,12 @@ async function main({ rootDirectory }) {
     fs.writeFile(FLY_TOML_PATH, toml.stringify(prodToml)),
     fs.writeFile(ENV_PATH, env),
     fs.writeFile(PACKAGE_JSON_PATH, newPackageJson),
+    fs.copyFile(
+      path.join(rootDirectory, 'remix.init', 'gitignore'),
+      path.join(rootDirectory, '.gitignore')
+    ),
+    fs.rm(path.join(rootDirectory, 'LICENSE.md')),
+    fs.rm(path.join(rootDirectory, 'docs'), { recursive: true }),
   ])
 }
 
