@@ -8,7 +8,7 @@ import { useActionKey } from '~/hooks/useActionKey'
 import { nearestScrollableContainer } from '~/.client/nearest-scrollable-container'
 import { useMediaQuery } from '~/hooks/useMediaQuery'
 import type { MetadataMetaType, MetadataType } from '~/.server/doc'
-import { DEFAULT_TAG } from '~/utils/defatult'
+import { DEFAULT_TAG } from '~/utils/defatults'
 
 import Header from './Header'
 

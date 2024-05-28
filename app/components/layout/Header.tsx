@@ -14,7 +14,7 @@ import { useTransition, animated } from 'react-spring'
 import { ThemeSwitcher } from '~/components/ThemeSwitcher'
 import { useOnClickOutside } from '~/hooks/useOnClickOutside'
 import type { MetadataType } from '~/.server/doc'
-import { DEFAULT_TAG } from '~/utils/defatult'
+import { DEFAULT_TAG } from '~/utils/defatults'
 
 function Breadcrumb({
   section,

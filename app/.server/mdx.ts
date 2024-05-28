@@ -6,12 +6,20 @@ import emoji from 'remark-emoji'
 import gfm from 'remark-gfm'
 import slug from 'rehype-slug'
 
-import type { FrontMatterType } from '~/types/mdx'
-
 import role from '../rehype/role'
 import checkbox from '../rehype/checkbox'
 import toc from '../remark/toc'
 import highlight from '../remark/highlight'
+
+type FrontMatterType = {
+  title: string
+  alternateTitle?: string
+  order?: number
+  description?: string
+  toc?: boolean
+  hidden?: boolean
+  spacer?: boolean
+}
 
 export async function mdxToHtml(source: string) {
   // inject Heading into the doc just below the frontmatter

@@ -82,7 +82,7 @@ export function Documentation({
         frontmatter.toc ? 'xl:ml-0 xl:mr-[15.5rem] xl:pr-16' : ''
       )}
     >
-      <div className="flex-auto mb-8 scroll-smooth">
+      <div className="mb-8 flex-auto scroll-smooth">
         <article>
           <header id="header" className="relative z-20">
             <div>
@@ -108,10 +108,10 @@ export function Documentation({
             <Component />
           </main>
         </article>
-        <dl className="flex pt-6 mt-12 border-t border-slate-200 dark:border-slate-800">
+        <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
           {prev && (
             <div>
-              <dt className="text-sm font-medium font-display text-slate-900 dark:text-white">
+              <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
                 Previous
               </dt>
               <dd className="mt-1">
@@ -128,7 +128,7 @@ export function Documentation({
           )}
           {next && (
             <div className="ml-auto text-right">
-              <dt className="text-sm font-medium font-display text-slate-900 dark:text-white">
+              <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
                 Next
               </dt>
               <dd className="mt-1">
@@ -145,7 +145,7 @@ export function Documentation({
           )}
         </dl>
         {/* Hack to get some space at the bottom of the page */}
-        <div className="w-full h-12 bg-transparent" />
+        <div className="h-12 w-full bg-transparent" />
       </div>
       {/* eslint-disable-next-line multiline-ternary */}
       {frontmatter.toc ? (
