@@ -4,7 +4,7 @@ import path from 'path'
 import toml from '@iarna/toml'
 import sort from 'sort-package-json'
 
-async function main({ rootDirectory }) {
+export async function main({ rootDirectory }) {
   const FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
   const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example')
   const ENV_PATH = path.join(rootDirectory, '.env')
@@ -45,5 +45,3 @@ async function main({ rootDirectory }) {
     fs.rm(path.join(rootDirectory, 'LICENSE.md')),
   ])
 }
-
-module.exports = main
