@@ -6,6 +6,7 @@
   "scripts": {
     "build": "remix vite:build",
     "clean": "rimraf build",
+    "deploy": "fly deploy --remote-only",
     "dev": "remix vite:dev",
     "generate:metadata": "tsx scripts/generate-metadata.ts",
     "lint": "eslint .",
