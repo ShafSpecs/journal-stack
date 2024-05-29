@@ -8,6 +8,12 @@ Welcome to Journal Stack! A documentation stack for scaffolding your doc writing
 
 Journal Stack is a simple, base template for building your documentation upon. Built using Remix Vite, it is a simple, yet powerful stack for building your documentation. It features multi-version support, easy themeing and more.
 
+Use the command below to easily create a new Journal Stack project:
+
+```sh
+ npx create-remix@latest --template shafspecs/journal-stack
+```
+
 ## Documentation
 
 Check out the `docs` folder for more information on how to get started with Journal Stack.
