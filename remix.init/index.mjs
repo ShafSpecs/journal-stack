@@ -37,7 +37,10 @@ export default async function main({ rootDirectory }) {
     ) + '\n'
 
   await Promise.all([
-    fs.writeFile(FLY_TOML_PATH, toml.stringify(prodToml)),
+    fs.writeFile(
+      FLY_TOML_PATH,
+      toml.stringify(prodToml).replace('build = { }', '\n[build]\n')
+    ),
     fs.writeFile(ENV_PATH, env),
     fs.writeFile(PACKAGE_JSON_PATH, newPackageJson),
     fs.copyFile(
