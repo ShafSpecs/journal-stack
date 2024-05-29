@@ -4,6 +4,10 @@ import path from 'path'
 import toml from '@iarna/toml'
 import sort from 'sort-package-json'
 
+const escapeRegExp = string =>
+  // $& means the whole matched string
+  string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
 export default async function main({ rootDirectory }) {
   const FLY_TOML_PATH = path.join(rootDirectory, 'fly.toml')
   const EXAMPLE_ENV_PATH = path.join(rootDirectory, '.env.example')
